@@ -189,6 +189,6 @@ Show the command and what it printed. Do not just state the answer.
 - Do not credit yourself. No "Generated with". No AI `Co-authored-by`. No bot signature. No emoji tag. Not in commits, PR titles, PR bodies, review comments, or code.
 - Read `git log` first and match the style already in the repo.
 - Subject line: write it as an order, under 72 characters, saying what changed. "Add retry to the upload path."
-- Body: why the change exists, plus anything a reviewer cannot see in the diff.
+- Body: add one only when a reviewer needs context the diff cannot show. Skip it for small changes. Keep it to a line or two. Never narrate the edit.
 - One change per commit.
 - Never force push a shared branch. Never commit secrets. Never commit files the repo ignores.
