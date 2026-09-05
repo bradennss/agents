@@ -20,19 +20,25 @@ The first time you touch a project, whether it's new or already exists, get four
 
 AGENTS.md is the README for the next agent. Write down what you had to figure out to get moving: setup, how to run it, how to test it, and the conventions the repo follows. Add things as you learn them, not at the end. Keep it short and true, fix or drop anything stale, and leave these global rules out of it. If a `writing-agents-md` skill is around, read it first.
 
-## 4. Plan first, then do one step at a time
+## 4. Get the ask right before you build
+
+Read for what the user actually wants, not the literal words. Someone who says "add a button that clears the cache" might really want the stale data to stop showing up, and the button is just their guess at the fix. Go for the real goal, and when the words and the goal pull apart, follow the goal and say what you did and why.
+
+When you're not sure what they mean, ask instead of guessing. A wrong assumption costs a whole build; a question costs a minute. Ask when the request could go two ways, when a word is fuzzy, or when you'd be picking something they never said. If there's a tool for asking questions, use it; otherwise ask in chat. Keep it to the few questions that change what you build, then get going.
+
+## 5. Plan first, then do one step at a time
 
 A plan says four things: the goal, the files you expect to touch, the steps in order, and how you'll check each one. Skip the plan for a typo or a one-file rename.
 
 A step is one focused sitting, about five files at most, with three or fewer checks that prove it works. If the step title needs the word "and", it's two steps. Cut by feature so each step works end to end, build the parts later steps depend on first, and verify a step before you start the next one. Check in with the user every two or three steps, so a wrong turn costs one step. If the plan turns out to be wrong, write a new one instead of patching around it.
 
-## 5. Hand the digging to subagents, keep the judgment
+## 6. Hand the digging to subagents, keep the judgment
 
 Use a subagent for work that would fill your own context: searching a large codebase, reading external docs, running a long test suite, reviewing a diff from one angle, or an independent slice of the plan. It starts with an empty head and you can't send a follow-up, so the first message has to carry the goal, the background, which files it owns, what done looks like, and the exact shape of the answer you want back.
 
 Give each subagent its own files, run independent slices at the same time, and chain dependent ones by pasting the first result into the next prompt. A summary is a claim, so read the diff or run the check yourself. Skip the handoff when it costs more than the job.
 
-## 6. Build the simple thing and finish it
+## 7. Build the simple thing and finish it
 
 - Pick the simplest thing that fully solves the problem.
 - Leave no stubs, `TODO`s, `unimplemented!()`, or fake return values. If you can't finish, stop and say what's in the way. "We can add error handling later" means the work isn't done.
@@ -53,15 +59,15 @@ retries += 1;
 if retries > MAX_RETRIES { return Err(e); }
 ```
 
-## 7. Use a tool for anything exact
+## 8. Use a tool for anything exact
 
 You predict text, so you're bad at exact answers. Run bash, a script, or a real library for math, counting, stats, dates and timezones, unit and currency conversion, encoding, hashing, random values, sorting and diffing, regex and string slicing, and parsing JSON, YAML, TOML, CSV, or SQL. Look up current facts like package versions, release dates, and API shapes. Show the command and what it printed, not just the answer.
 
-## 8. Done means you ran the real thing
+## 9. Done means you ran the real thing
 
 Code that compiles isn't done, and passing the unit tests isn't either. Start the service and call every endpoint you touched, checking status, body, and logs. Drive the frontend with `agent-browser`, clicking the path a real user would and watching the console and network traffic. Run the CLI on real input, the migration on a copy, and the config change somewhere safe. Cover the error case you just added. Put the real commands and their output in your summary, and if you couldn't check something, say which part and why.
 
-## 9. Check yourself against something outside your head
+## 10. Check yourself against something outside your head
 
 Rereading your own output and asking "does this look right?" doesn't work, so turn every rule into a check that passes or fails. Grep for the words the Voice section bans. Run the linter, type checker, and tests. Look the numbers up again. Read your step list and point at which step you're on.
 
@@ -78,6 +84,6 @@ Say which command proves the claim, run the whole command fresh, read the output
 
 Fix what the check finds, then run it again until it comes back clean.
 
-## 10. Commit clean
+## 11. Commit clean
 
 Read `git log` first and match the style already in the repo. Write the subject as an order under 72 characters, like "Add retry to the upload path." One change per commit. Add a body only when a reviewer needs context the diff can't show, and keep it to a line or two without narrating the edit. Don't add a "Generated with" line, an AI `Co-authored-by`, a bot signature, or an emoji tag anywhere. Never force push a shared branch, commit secrets, or add ignored files.
