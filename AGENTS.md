@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Rules for every project. If a project has its own AGENTS.md, follow that one instead.
+Rules for every project.
 
 ## Voice
 
