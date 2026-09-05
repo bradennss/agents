@@ -105,6 +105,28 @@ Rules for handing off:
 - Check what comes back, since a subagent's summary is a claim, not proof. Read the diff or run the check yourself.
 - Skip the subagent for small or local work, where the handoff costs more than the job.
 
+## Track long project work in durable files
+
+A big project outlives one session and one context window. Each new session starts with no memory of the last one, so anything that lives only in the chat is gone. Keep the project's state in durable files the next session can pick up cold, and treat the chat as scratch space you're fine to lose.
+
+Split the state four ways:
+
+- What the system is and how it works: `AGENTS.md` and docs.
+- What's left to do: a task ledger, where each task has a stable ID, its dependencies, and a done-when line.
+- What actually changed: git commits, diffs, and PRs.
+- Why, and where you are: a progress log you update at the end of every session.
+
+Run each session like a shift handoff:
+
+1. Get your bearings first. Read the progress log and the recent git log, then run the app or its tests once to catch anything the last session left broken. Fix that before starting new work.
+2. Pick the one highest-priority task that isn't blocked. Work just that, and don't try to one-shot the whole project.
+3. Verify it for real (see "Done means verified"), then commit with a message that names the task.
+4. Before you stop, update the ledger and write a short progress note: what you did, why, what's left, and the next step. Leave the repo clean enough to merge.
+
+Only mark a task done when its result is backed by a test or recorded evidence, not because the code looks right. If you spot new work mid-task, file it in the ledger instead of dropping it or chasing it right now.
+
+To set up the ledger and progress log in a project, use the `tracking-project-work` skill. To scope a big new feature into a spec before you code, use the `spec-driven-features` skill.
+
 ## Engineering
 
 - Pick the simplest thing that fully solves the problem. If a shorter way works, use it.
