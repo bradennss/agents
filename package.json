@@ -1,0 +1,12 @@
+{
+  "name": "agents",
+  "private": true,
+  "packageManager": "pnpm@11.25.0",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "3.9.6"
+  }
+}
