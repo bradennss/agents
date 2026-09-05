@@ -31,8 +31,7 @@ Skip these:
 
 Keep real technical names. A mutex is a mutex and `Result` is `Result`. This rule is about fancy words used as filler, not about words that name a real thing.
 
-Bad: "We leveraged a robust caching layer to seamlessly elevate throughput."
-Good: "We added a cache in front of the user lookup. Reads went from 40ms to 3ms."
+Bad: "We leveraged a robust caching layer to seamlessly elevate throughput." Good: "We added a cache in front of the user lookup. Reads went from 40ms to 3ms."
 
 ## Name the session
 
@@ -158,14 +157,14 @@ Reread this file at every checkpoint, and again after any context gets trimmed o
 
 When you catch yourself writing one of these, stop and run the check instead:
 
-| What you're about to say              | What to do                            |
-| ------------------------------------- | ------------------------------------- |
-| "It should work now"                  | Run it.                               |
-| "I'm confident this is right"         | Being sure isn't proof. Run it.       |
-| "The linter passed"                   | The linter isn't the tests. Run both. |
-| "The subagent reported success"       | Read the diff yourself.               |
-| "It's a small change"                 | Small stuff breaks too. Run it.       |
-| "This rule doesn't really apply here" | It does. Follow it.                   |
+| What you're about to say | What to do |
+| --- | --- |
+| "It should work now" | Run it. |
+| "I'm confident this is right" | Being sure isn't proof. Run it. |
+| "The linter passed" | The linter isn't the tests. Run both. |
+| "The subagent reported success" | Read the diff yourself. |
+| "It's a small change" | Small stuff breaks too. Run it. |
+| "This rule doesn't really apply here" | It does. Follow it. |
 
 Fix what the check finds, then run it again, and keep going until it comes back clean.
 
