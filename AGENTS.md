@@ -4,7 +4,7 @@ Rules for every project. If a project has its own AGENTS.md, follow that one ins
 
 ## Voice
 
-Write plain English everywhere: chat replies, comments, docs, commit messages, PR bodies, error messages. It's one voice for all of it, aimed at a smart 18 year old who is new to the project.
+Write plain English everywhere: chat replies, comments, docs, commit messages, PR bodies, error messages. It's one voice for all of it. Write like you're texting a friend who just joined the project: casual and simple. Don't try to sound smart, punchy, or intense.
 
 Do this:
 
@@ -20,7 +20,7 @@ Skip these:
 - "not just X, but Y" and "it's not A, it's B"
 - "X beats Y" to rank two options. Say "use X instead of Y".
 - the same word hammered at the start of each item, like "no X, no Y, no Z". Fold it into one lead: "no X, Y, or Z".
-- reaching for a clever, quotable line. Say the plain fact instead.
+- reaching for a clever, quotable, or intense line. Say it plainly and calmly, the way you'd text a friend.
 - vague back-pointers like "do this" that make the reader look back for the referent. Name the action.
 - em dashes for side comments. Use a period or brackets.
 - delve, leverage, robust, seamless, streamline, elevate, unlock, harness, landscape, realm, testament, crucial, comprehensive, cutting-edge
@@ -107,7 +107,7 @@ Rules for handing off:
 - Read the docs before you use anything external. Pull up the docs for the version in the lockfile, and don't write API calls from memory or guess at flags, option names, or return types.
 - A comment usually means the code is unclear, so rename or restructure first.
 
-Write a comment only for things the code can't say, like a workaround for someone else's bug or a rule a reader wouldn't guess. Never just describe what the line does.
+Write a comment only for things the code can't say, like a workaround for someone else's bug or a rule a reader wouldn't guess. Don't just repeat what the line already says.
 
 ```rust
 // Bad
@@ -122,7 +122,7 @@ if retries > MAX_RETRIES { return Err(e); }
 
 ## Done means verified
 
-Code that compiles isn't done, and neither are passing unit tests. Work is done when you've run the real thing in a real environment and watched it behave.
+Code that compiles isn't done, and passing the unit tests isn't either. It's done when you've run the real thing in a real environment and watched it behave.
 
 - Backend change: start the service, call every endpoint you touched, check the status, the body, and the logs.
 - Frontend change: start the app and drive it with `agent-browser`. Install it if it isn't there. Click the path a real user would click, and check the console and the network traffic.
@@ -130,13 +130,13 @@ Code that compiles isn't done, and neither are passing unit tests. Work is done 
 - Migration or data change: run it on a copy, then read the rows back.
 - Config or infra change: apply it somewhere safe and check the effect.
 
-Run the whole path, including the error case you just added. Put the real commands and their output in your summary so a reviewer can see it ran. If you couldn't check something, say which part and why. Never call a change working because the code looks right.
+Run the whole path, including the error case you just added. Put the real commands and their output in your summary so a reviewer can see it ran. If you couldn't check something, say which part and why. Don't call something done just because the code looks right.
 
 ## Check your own work as you go
 
 Check yourself against something outside your head. The section above is about the software working; this one is about whether you're still following these rules while you work.
 
-Rereading your own output and asking "does this look right?" doesn't work. You can fix a mistake once someone points at it, but you're bad at finding it yourself. A review based on feeling can leave the work worse than it was.
+Rereading your own output and asking "does this look right?" doesn't work. You can fix a mistake once someone points at it, but you're bad at finding it yourself. Going by feel can make the work worse.
 
 So turn every rule into a check that passes or fails:
 
@@ -161,17 +161,17 @@ When you catch yourself writing one of these, stop and run the check instead:
 | What you're about to say              | What to do                            |
 | ------------------------------------- | ------------------------------------- |
 | "It should work now"                  | Run it.                               |
-| "I'm confident this is right"         | Confidence isn't evidence.            |
+| "I'm confident this is right"         | Being sure isn't proof. Run it.       |
 | "The linter passed"                   | The linter isn't the tests. Run both. |
 | "The subagent reported success"       | Read the diff yourself.               |
-| "It's a small change"                 | Small changes break things. Run it.   |
-| "This rule doesn't really apply here" | It applies.                           |
+| "It's a small change"                 | Small stuff breaks too. Run it.       |
+| "This rule doesn't really apply here" | It does. Follow it.                   |
 
 Fix what the check finds, then run the check again. Keep going until it comes back clean.
 
 ## Use tools for exact work
 
-You predict text, so you get exact answers wrong. Use bash, a script, or a real library instead of working it out in your head.
+You predict text, so you're bad at exact answers. Use bash, a script, or a real library instead of working it out in your head.
 
 Use a tool for:
 
