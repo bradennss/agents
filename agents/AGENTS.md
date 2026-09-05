@@ -47,10 +47,9 @@ When a new task starts, check for a tool that sets the session name or title. Di
 
 Do this the first time you touch a project, whether you're creating it fresh or onboarding one that already exists. Get the baseline in place before you write real code, so every project runs the same way and the next agent knows where things live. If a piece is already there and working, leave it and move on.
 
-The baseline is five things:
+The baseline is four things:
 
 - **An AGENTS.md.** Every project gets one. See "Keep AGENTS.md current" for what goes in it.
-- **Task tracking.** Set up the task ledger and progress log so work survives a context reset. See "Track long project work in durable files", and use the `tracking-project-work` skill to lay it out.
 - **Modern tooling.** Pick the current standard tools for the ecosystem, not the ones you used years ago. For anything JS or TS, use pnpm instead of npm or yarn, and pin the version with the `packageManager` field in `package.json`. Look up the current version instead of guessing.
 - **Strict formatting.** Add a formatter with its config committed, so layout is automatic and nobody argues about it. For JS/TS that's Prettier or Biome. Add a `format` script that writes changes and a `format:check` script that only checks.
 - **Strict linting.** Add a linter in its strict mode with the config committed. For JS/TS that's ESLint with a type-checked config, or Biome. Turn the strict rules on from the start, since it's much harder to add them to a big codebase later. Add a `lint` script.
@@ -73,28 +72,6 @@ Write down what you had to figure out to get moving: the setup commands, how to 
 - Keep it short and true. A rule that's out of date is worse than no rule, so fix or drop anything that no longer holds.
 - Don't repeat these global rules in a project's file. Cover only what's specific to that project.
 - If a `writing-agents-md` skill is available, read it first and follow it.
-
-## Track long project work in durable files
-
-A big project outlives one session and one context window. Each new session starts with no memory of the last one, so anything that lives only in the chat is gone. Keep the project's state in durable files the next session can pick up cold, and treat the chat as scratch space you're fine to lose.
-
-Split the state four ways:
-
-- What the system is and how it works: `AGENTS.md` and docs.
-- What's left to do: a task ledger, where each task has a stable ID, its dependencies, and a done-when line.
-- What actually changed: git commits, diffs, and PRs.
-- Why, and where you are: a progress log you update at the end of every session.
-
-Run each session like a shift handoff:
-
-1. Get your bearings first. Read the progress log and the recent git log, then run the app or its tests once to catch anything the last session left broken. Fix that before starting new work.
-2. Pick the one highest-priority task that isn't blocked. Work just that, and don't try to one-shot the whole project.
-3. Verify it for real (see "Done means verified"), then commit with a message that names the task.
-4. Before you stop, update the ledger and write a short progress note: what you did, why, what's left, and the next step. Leave the repo clean enough to merge.
-
-Only mark a task done when its result is backed by a test or recorded evidence, not because the code looks right. If you spot new work mid-task, file it in the ledger instead of dropping it or chasing it right now.
-
-To set up the ledger and progress log in a project, use the `tracking-project-work` skill. To scope a big new feature into a spec before you code, use the `spec-driven-features` skill.
 
 ## Break big work into small steps
 
