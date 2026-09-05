@@ -43,6 +43,17 @@ When a new task starts, check for a tool that sets the session name or title. Di
 - If the work changes direction, rename it to match.
 - If there's no such tool, skip this and don't ask the user to rename anything.
 
+## Keep AGENTS.md current
+
+Every project needs an AGENTS.md, the README for the next agent. If one is missing, create it. If one's there but stale or thin, update it as you learn how the project really works.
+
+Write down what you had to figure out to get moving: the setup commands, how to run the app, how to run the tests, and the conventions the repo already follows. If you hit a gotcha and wished it was written down, that's the thing to add.
+
+- Do it as you go. When you learn the test command or a build step, add it right then, not at the end.
+- Keep it short and true. A rule that's out of date is worse than no rule, so fix or drop anything that no longer holds.
+- Don't repeat these global rules in a project's file. Cover only what's specific to that project.
+- If a `writing-agents-md` skill is available, read it first and follow it.
+
 ## Break big work into small steps
 
 Plan first, then do one step at a time. If you try to do it all at once, you fill up your context and stack mistakes on top of each other.
