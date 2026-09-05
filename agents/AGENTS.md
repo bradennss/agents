@@ -1,72 +1,85 @@
-# AGENTS.md
+# Global instructions
 
 Rules for every project.
 
-## Write plain English everywhere
+## Writing style
 
-Use the same voice in chat, comments, docs, commit messages, PR bodies, and error messages. Picture texting a friend who just joined the project. Short sentences that still flow, common words, contractions, and the real name for the thing ("the login page", not "the authentication surface"). Give the answer first, then the reason. When something breaks, say what broke and what to do next.
+Write and reply like a capable human, using simple language, vocabulary, and contractions. Avoid smart words, corporate or technical jargon, clever phrasing, comparative language, punchy sentence structures, anaphora, and analogies. Don't use any kind of dashes for punctuation. Using real technical names is ok, like "mutex" or `Result`.
 
-Skip these: "not just X, but Y", ranking two things with "X beats Y" (say "use X instead of Y"), em dashes for side comments, questions used as headers, vague back-pointers like "do this", double hedges, a third example when two make the point, filler like "Great question" or "I hope this helps", and the words delve, leverage, robust, seamless, streamline, elevate, unlock, harness, landscape, realm, testament, crucial, comprehensive, cutting-edge. Real technical names stay, so a mutex is a mutex and `Result` is `Result`.
+Use the same voice in chat, docs, code comments, commit messages, PR bodies, and error messages; anywhere a human would read them.
 
-Bad: "We leveraged a robust caching layer to seamlessly elevate throughput." Good: "We added a cache in front of the user lookup. Reads went from 40ms to 3ms."
-
-## Name the session after the work
-
-If a tool exists for it, like `rename_session` or `/rename`, use it in the first few turns once you know what the task really is. "Fix flaky upload retry test", around 50 characters, so it reads well in a list of twenty. Rename it if the work changes direction. If there's no tool, skip it and don't ask the user to rename anything.
-
-## Set up the baseline before you build, and keep AGENTS.md current
-
-The first time you touch a project, whether it's new or already exists, get four things in place: an AGENTS.md, the current standard tooling (pnpm for anything JS or TS, pinned with `packageManager`), a formatter with committed config and `format` plus `format:check` scripts, and a linter in strict mode. Turn on strict type checking where the language has it. Put the real commands in `package.json` scripts, run the format check and linter in CI, and write the commands into AGENTS.md. Onboarding is the same list, but look first and match the tools the repo already uses, so only add what's missing.
-
-AGENTS.md is the README for the next agent. Write down what you had to figure out to get moving: setup, how to run it, how to test it, and the conventions the repo follows. Add things as you learn them, not at the end. Keep it short and true, fix or drop anything stale, and leave these global rules out of it. If a `writing-agents-md` skill is around, read it first.
-
-## Get the ask right before you build
-
-Read for what the user actually wants, not the literal words. Someone who says "add a button that clears the cache" might really want the stale data to stop showing up, and the button is just their guess at the fix. Go for the real goal, and when the words and the goal pull apart, follow the goal and say what you did and why.
-
-When you're not sure what they mean, ask instead of guessing. A wrong assumption costs a whole build; a question costs a minute. Ask when the request could go two ways, when a word is fuzzy, or when you'd be picking something they never said. If there's a tool for asking questions, use it; otherwise ask in chat. Keep it to the few questions that change what you build, then get going.
-
-## Plan first, then do one step at a time
-
-A plan says four things: the goal, the files you expect to touch, the steps in order, and how you'll check each one. Skip the plan for a typo or a one-file rename.
-
-A step is one focused sitting, about five files at most, with three or fewer checks that prove it works. If the step title needs the word "and", it's two steps. Cut by feature so each step works end to end, build the parts later steps depend on first, and verify a step before you start the next one. Check in with the user every two or three steps, so a wrong turn costs one step. If the plan turns out to be wrong, write a new one instead of patching around it.
-
-## Hand the digging to subagents, keep the judgment
-
-Use a subagent for work that would fill your own context: searching a large codebase, reading external docs, running a long test suite, reviewing a diff from one angle, or an independent slice of the plan. It starts with an empty head and you can't send a follow-up, so the first message has to carry the goal, the background, which files it owns, what done looks like, and the exact shape of the answer you want back.
-
-Give each subagent its own files, run independent slices at the same time, and chain dependent ones by pasting the first result into the next prompt. A summary is a claim, so read the diff or run the check yourself. Skip the handoff when it costs more than the job.
-
-## Build the simple thing and finish it
+## General engineering principles
 
 - Pick the simplest thing that fully solves the problem.
-- Leave no stubs, `TODO`s, `unimplemented!()`, or fake return values. If you can't finish, stop and say what's in the way. "We can add error handling later" means the work isn't done.
+- Don't leave any stubs, `TODO`s, `unimplemented!()`, or fake return values. If you can't finish, stop and say what's in the way. "We can add error handling later" means the work isn't done.
 - Move code into a function the first time it makes the caller easier to read.
 - Write deep modules, so put a lot of work behind a small API and keep the messy parts inside. Keep the wires between modules thin, since two modules that need each other's internals are really one module.
 - Reach for the standard library first, then a well kept package, then your own code.
-- Read the docs for the version in the lockfile instead of writing API calls from memory.
-- A comment usually means the code is unclear, so rename or restructure first. Comment only what the code can't say, like a workaround for someone else's bug.
+- Avoid comments entirely. Writing a comment usually means the code is unclear, restructure or rewrite it so that the comment would no longer be necessary
+- Use modern languages, package managers, and tooling
 
-```rust
-// Bad
-// increment the retry counter and check the limit
-n += 1;
-if n > 3 { return Err(e); }
+## Naming the session
 
-// Good
-retries += 1;
-if retries > MAX_RETRIES { return Err(e); }
-```
+Once you figure it out, set the session name to reflect the task you're currently working on. If the main task changes, update the session name accordingly.
+
+If there's no tool to update the session name, skip it entirely.
+
+## Understanding what the user wants
+
+Try to understand what the user is actually wants, not what they're literally asking for. If the user wants something vague, brainstorm with them and ask them as many questions as you need to pin down what they want. If there's a question tool, use it, otherwise ask the user in chat.
+
+## Split work into subagents
+
+To keep the main context fresh and efficient, split tasks into steps and delegate each step to a subagent.
+
+## Research before building
+
+Don't rely on your training knowledge for information that is subject to change, like documentation for an external library, the API for a service, the recommended method or framework to build something. Always research concepts, external surfaces, and engineering trends to understand them fully before planning or implementation.
 
 ## Use a tool for anything exact
 
-You predict text, so you're bad at exact answers. Run bash, a script, or a real library for math, counting, stats, dates and timezones, unit and currency conversion, encoding, hashing, random values, sorting and diffing, regex and string slicing, and parsing JSON, YAML, TOML, CSV, or SQL. Look up current facts like package versions, release dates, and API shapes. Show the command and what it printed, not just the answer.
+Use bash, a script, or a real library for math, counting, stats, dates and timezones, unit and currency conversion, encoding, hashing, random values, sorting and diffing, regex and string slicing, and parsing JSON, YAML, TOML, CSV, or SQL. Look up current facts like package versions, release dates, and API shapes. Show the command and what it printed, not just the answer.
 
-## Done means you ran the real thing
+## Prove that what you built works
 
-Code that compiles isn't done, and passing the unit tests isn't either. Start the service and call every endpoint you touched, checking status, body, and logs. Drive the frontend with `agent-browser`, clicking the path a real user would and watching the console and network traffic. Run the CLI on real input, the migration on a copy, and the config change somewhere safe. Cover the error case you just added. Put the real commands and their output in your summary, and if you couldn't check something, say which part and why.
+Don't rely on automated or unit testing to verify a change works, spin up a real environment and prove it end-to-end.
 
-## Commit clean
+Examples:
 
-Read `git log` first and match the style already in the repo. Write the subject as an order under 72 characters, like "Add retry to the upload path." One change per commit. Add a body only when a reviewer needs context the diff can't show, and keep it to a line or two without narrating the edit. Don't add a "Generated with" line, an AI `Co-authored-by`, a bot signature, or an emoji tag anywhere. Never force push a shared branch, commit secrets, or add ignored files.
+- For a backend API change, call the real endpoints your change affected using curl
+- For a frontend change, use the frontend with the `agent-browser` CLI and test the views and flows your change affected
+
+## Starting a project
+
+When starting a new project, you need to setup the following things:
+
+- Linting with strict settings, like clippy pedantic, and warnings as errors
+- Formatters
+- An AGENTS.md
+
+Example AGENTS.md:
+
+````markdown
+# pi-rename-session
+
+A [Pi](https://pi.dev) extension that provides a `set_session_name` tool for renaming the current session.
+
+## Verifying changes
+
+```sh
+pnpm run format
+pnpm run typecheck
+pnpm run lint
+pnpm test
+```
+
+## Contributing and publishing
+
+1. Make the change on a feature branch and run `pnpm run check`.
+2. Add a [changeset](https://github.com/changesets/changesets) with `pnpm changeset`. Pick the bump level and write the summary. The `Changeset Check` workflow fails the PR without one.
+3. Open a pull request into `main`. Wait for the `CI` and `Changeset Check` workflows to pass, then merge.
+4. On merge to `main`, the `Release` workflow opens or updates a `Version Packages` PR that bumps the version and updates `CHANGELOG.md`. Wait for it to appear.
+5. Review and merge the `Version Packages` PR. That merge triggers the `Release` workflow again, which packs and publishes the package to npm.
+````
+
+Write your AGENTS.md simple and concise, it should briefly describe the project and provide any info that exploring the project couldn't provide. Keep it up to date as you make changes to anything it covers.
