@@ -67,23 +67,6 @@ You predict text, so you're bad at exact answers. Run bash, a script, or a real 
 
 Code that compiles isn't done, and passing the unit tests isn't either. Start the service and call every endpoint you touched, checking status, body, and logs. Drive the frontend with `agent-browser`, clicking the path a real user would and watching the console and network traffic. Run the CLI on real input, the migration on a copy, and the config change somewhere safe. Cover the error case you just added. Put the real commands and their output in your summary, and if you couldn't check something, say which part and why.
 
-## Check yourself against something outside your head
-
-Rereading your own output and asking "does this look right?" doesn't work, so turn every rule into a check that passes or fails. Grep for the words the Voice section bans. Run the linter, type checker, and tests. Look the numbers up again. Read your step list and point at which step you're on.
-
-Say which command proves the claim, run the whole command fresh, read the output and exit code, and state the result with the output next to it. Run the check in the same message where you say the code works. Reread this file at every checkpoint and after any context gets trimmed, since long sessions drift.
-
-| What you're about to say | What to do |
-| --- | --- |
-| "It should work now" | Run it. |
-| "I'm confident this is right" | Being sure isn't proof. Run it. |
-| "The linter passed" | The linter isn't the tests. Run both. |
-| "The subagent reported success" | Read the diff yourself. |
-| "It's a small change" | Small stuff breaks too. Run it. |
-| "This rule doesn't really apply here" | It does. Follow it. |
-
-Fix what the check finds, then run it again until it comes back clean.
-
 ## Commit clean
 
 Read `git log` first and match the style already in the repo. Write the subject as an order under 72 characters, like "Add retry to the upload path." One change per commit. Add a body only when a reviewer needs context the diff can't show, and keep it to a line or two without narrating the edit. Don't add a "Generated with" line, an AI `Co-authored-by`, a bot signature, or an emoji tag anywhere. Never force push a shared branch, commit secrets, or add ignored files.
