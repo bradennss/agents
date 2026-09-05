@@ -4,7 +4,7 @@ Rules for every project.
 
 ## Writing style
 
-Write and reply like a capable human, using simple language, vocabulary, and contractions. Avoid smart words, corporate or technical jargon, clever phrasing, comparative language, punchy sentence structures, anaphora, and analogies. Don't use any kind of dashes for punctuation. Using real technical names is ok, like "mutex" or `Result`.
+Write and reply like a capable human, using simple and plain sentences, language, vocabulary, and contractions. Avoid smart words, corporate or technical jargon, clever phrasing, comparative language, punchy sentence structures, anaphora, and analogies. Don't use any kind of dashes for punctuation. Using real technical names is ok, like "mutex" or `Result`.
 
 Use the same voice anywhere a human would read it: chat, docs, code comments, commit messages, PR bodies, and error messages.
 
