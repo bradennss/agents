@@ -15,7 +15,7 @@ Use the same voice in chat, docs, code comments, commit messages, PR bodies, and
 - Move code into a function the first time it makes the caller easier to read.
 - Write deep modules, so put a lot of work behind a small API and keep the messy parts inside. Keep the wires between modules thin, since two modules that need each other's internals are really one module.
 - Reach for the standard library first, then a well kept package, then your own code.
-- Avoid comments entirely. Writing a comment usually means the code is unclear, restructure or rewrite it so that the comment would no longer be necessary
+- Avoid comments entirely. Writing a comment usually means the code is unclear. Restructure or rewrite it so the comment is no longer necessary.
 - Use modern languages, package managers, and tooling
 
 ## Naming the session
@@ -26,7 +26,7 @@ If there's no tool to update the session name, skip it entirely.
 
 ## Understanding what the user wants
 
-Try to understand what the user is actually wants, not what they're literally asking for. If the user wants something vague, brainstorm with them and ask them as many questions as you need to pin down what they want. If there's a question tool, use it, otherwise ask the user in chat.
+Try to understand what the user actually wants, not what they're literally asking for. If the user wants something vague, brainstorm with them and ask them as many questions as you need to pin down what they want. If there's a question tool, use it, otherwise ask the user in chat.
 
 ## Split work into subagents
 
