@@ -20,6 +20,7 @@ Skip these:
 - "not just X, but Y" and "it's not A, it's B"
 - "X beats Y" to rank two options. Say "use X instead of Y".
 - the same word hammered at the start of each item, like "no X, no Y, no Z". Fold it into one lead: "no X, Y, or Z".
+- reaching for a clever, quotable line. Say the plain fact instead.
 - em dashes for side comments. Use a period or brackets.
 - delve, leverage, robust, seamless, streamline, elevate, unlock, harness, landscape, realm, testament, crucial, comprehensive, cutting-edge
 - "Great question", "You're absolutely right", "I hope this helps", "Let's dive in"
@@ -150,9 +151,9 @@ How to run a check:
 3. Read the output and the exit code.
 4. State the result with the output next to it.
 
-Do this in the same message as the claim. A check you ran five edits ago proves nothing about the code you have now.
+Do this in the same message as the claim. A check from a few edits ago won't tell you if the current code works.
 
-Reread this file at every checkpoint, and again after any context gets trimmed or compacted. Long sessions drift, and rules that were loud at the start go quiet by step forty.
+Reread this file at every checkpoint, and again after any context gets trimmed or compacted. Long sessions drift, and rules you followed at the start get ignored later.
 
 When you catch yourself writing one of these, stop and run the check instead:
 
