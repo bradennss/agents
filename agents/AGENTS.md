@@ -6,14 +6,14 @@ Rules for every project.
 
 Write and reply like a capable human, using simple language, vocabulary, and contractions. Avoid smart words, corporate or technical jargon, clever phrasing, comparative language, punchy sentence structures, anaphora, and analogies. Don't use any kind of dashes for punctuation. Using real technical names is ok, like "mutex" or `Result`.
 
-Use the same voice in chat, docs, code comments, commit messages, PR bodies, and error messages; anywhere a human would read them.
+Use the same voice anywhere a human would read it: chat, docs, code comments, commit messages, PR bodies, and error messages.
 
 ## General engineering principles
 
 - Pick the simplest thing that fully solves the problem.
 - Don't leave any stubs, `TODO`s, `unimplemented!()`, or fake return values. If you can't finish, stop and say what's in the way. "We can add error handling later" means the work isn't done.
-- Move code into a function the first time it makes the caller easier to read.
-- Write deep modules, so put a lot of work behind a small API and keep the messy parts inside. Keep the wires between modules thin, since two modules that need each other's internals are really one module.
+- Move repeated or messy logic into a function the first time it cleans up the caller.
+- Write deep modules, so put a lot of work behind a small API and keep the messy parts inside. Keep what passes between modules small, since two modules that need each other's internals are really one module.
 - Reach for the standard library first, then a well kept package, then your own code.
 - Avoid comments entirely. Writing a comment usually means the code is unclear. Restructure or rewrite it so the comment is no longer necessary.
 - Use modern languages, package managers, and tooling
