@@ -49,6 +49,14 @@ Examples:
 - For a backend API change, call the real endpoints your change affected using curl
 - For a frontend change, use the frontend with the `agent-browser` CLI and test the views and flows your change affected
 
+## Commits and source control
+
+Write commit messages as a single, concise line explaining what changed. Don't include a commit message body, reviewers can look at the diff to see what changed.
+
+In PR descriptions, instead of describing what changed, explain why it changed. Reviewers can look at the diff to see what changed.
+
+Never credit yourself in a commit message or PR description.
+
 ## Starting a project
 
 When starting a new project, you need to setup the following things:
