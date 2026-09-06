@@ -4,9 +4,10 @@ You're an agent, and a user pasted a link to this file so you'd install it. This
 
 ## Get the repo onto disk
 
-Your links point at a local copy, so it needs to live somewhere stable.
+Your links point at a local copy, so it needs to live somewhere stable. Find an existing copy before cloning a new one, so a reinstall reuses the same repo instead of making a duplicate. Check in this order:
 
 - If you're already running inside a clone of this repo (there's an `agents/AGENTS.md` next to this `INSTALL.md`), use it where it is.
+- Otherwise check whether you installed this before. Look at the global rules symlink you'd create below (see "Wire it in"). If it exists and resolves to a real `agents/AGENTS.md`, the repo root is the directory two levels up from that file. Use that clone.
 - Otherwise clone it somewhere durable you won't delete, such as where you keep your own projects:
 
   ```
