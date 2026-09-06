@@ -91,3 +91,5 @@ pnpm test
 ````
 
 Write your AGENTS.md simple and concise, it should briefly describe the project and provide any info that exploring the project couldn't provide. Keep it up to date as you make changes to anything it covers.
+
+After creating AGENTS.md, create a CLAUDE.md symlink to it. If a CLAUDE.md already exists, delete it.
