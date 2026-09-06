@@ -20,7 +20,7 @@ Use the same voice anywhere a human would read it: chat, docs, code comments, co
 
 ## Naming the session
 
-Once you figure it out, set the session name to reflect the task you're currently working on. If the main task changes, update the session name accordingly.
+At the beginning of a task, set the session name to reflect what you're currently working on. If you start working on a different task, update the session name accordingly.
 
 If there's no tool to update the session name, skip it entirely.
 
