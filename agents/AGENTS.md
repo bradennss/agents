@@ -30,15 +30,7 @@ Try to understand what the user actually wants, not what they're literally askin
 
 ## Split work into subagents
 
-Work as an orchestrator. Plan the work, split it into pieces, and hand each piece to a subagent. A subagent runs in its own context and returns only its final answer, so the files it reads and the output it produces stay out of your context.
-
-- Delegate work that reads a lot of files, produces output you won't reuse, or splits into independent pieces you can run in parallel. Delegate reviews and small self contained changes too, when you only need the result.
-- Do the work in the main session when the steps depend on each other, the fix is quick, or the edits touch the same file.
-- Give each subagent a tight brief: the goal, what it owns and what it must not touch, which tools to use, the output you want, how to check it, and when to stop. Ask it to return the answer, not the raw logs.
-- Run independent work in parallel and chain work that depends on earlier steps. Give each file one writer, then hand the results to one owner to combine.
-- Ask for short results. Take a summary inline for small answers. For large output, have the subagent write a file and return the path.
-- Treat what a subagent returns as something to review, not as fact.
-- Delegation costs tokens, so only delegate when it saves more than it costs. Don't spawn a subagent for small, quick work.
+To keep the main context fresh and efficient, split tasks into steps and delegate each step to a subagent.
 
 ## Research before building
 
