@@ -30,7 +30,7 @@ Try to understand what the user actually wants, not what they're literally askin
 
 ## Split work into subagents
 
-To keep the main context fresh and efficient, split tasks into steps and delegate each step to a subagent.
+Work as an orchestrator. Plan the work and hand independent pieces, heavy reading, or output you won't reuse to subagents with a tight brief, but keep quick or dependent steps in the main session. Give each file one writer, review what comes back, and only delegate when it saves more than it costs.
 
 ## Research before building
 
