@@ -58,6 +58,10 @@ Examples:
 - For a backend API change, call the real endpoints your change affected using curl
 - For a frontend change, use the frontend with the `agent-browser` CLI and test the views and flows your change affected
 
+## Review your work before finishing
+
+At the end of any task, use a subagent to review your changes against every rule in these global instructions. Give it the diff and the rules, and have it report each rule that's broken. If it finds anything, fix it and spawn another subagent to review again. Keep reviewing and fixing until a review comes back clean, then the task is done.
+
 ## Commits and source control
 
 Write commit messages as a single, concise line explaining what changed. Don't include a commit message body, reviewers can look at the diff to see what changed.
