@@ -20,6 +20,8 @@ Use the same voice anywhere a human would read it: chat, docs, code comments, co
 - Finish the work. Don't leave stubs, `TODO`s, `unimplemented!()`, fake return values, or a quietly shrunk task. If you can't finish or the job is bigger than it looked, stop and say what's in the way instead of pretending it's done.
 - Keep the codebase consistent. Follow the existing patterns, and when you improve one, apply that improvement to the other places that use it.
 - Move repeated or messy logic into a function the first time it cleans up the caller.
+- Pull magic values out into named constants, enums, or config. Don't scatter raw literals like numbers, strings, or keys through the code.
+- Don't hand parse payloads. Define a schema or typed structure and let it validate and decode into real types, so parsing lives in one place instead of spread across the callers.
 - Write deep modules, so put a lot of work behind a small API and keep the messy parts inside. Keep what passes between modules small, since two modules that need each other's internals are really one module.
 - Reach for the standard library first, then a well kept package, then your own code.
 - Avoid comments entirely. Writing a comment usually means the code is unclear, so restructure or rewrite it until the comment is no longer necessary.
