@@ -23,7 +23,7 @@ Use the same voice anywhere a human would read it: chat, docs, code comments, co
 - Pull magic values out into named constants, enums, or config. Don't scatter raw literals like numbers, strings, or keys through the code.
 - Don't hand parse payloads. Define a schema or typed structure and let it validate and decode into real types, so parsing lives in one place instead of spread across the callers.
 - Write deep modules, so put a lot of work behind a small API and keep the messy parts inside. Keep what passes between modules small, since two modules that need each other's internals are really one module.
-- Reach for the standard library first, then a well kept package, then your own code.
+- Reach for the standard library first, then a well kept package, then your own code. For common cross-cutting concerns that benefit from a shared convention, like config loading, logging, argument parsing, or serialization, use the same well known package across services even when writing it by hand would be little code. The point is that every service does it the same way, so config loading uses a package like envy instead of reading environment variables by hand.
 - Avoid comments entirely. Writing a comment usually means the code is unclear, so restructure or rewrite it until the comment is no longer necessary.
 - Use modern languages, package managers, and tooling.
 
