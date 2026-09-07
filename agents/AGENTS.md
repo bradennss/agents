@@ -6,6 +6,8 @@ Rules for every project.
 
 Write and reply like a capable human, using simple and plain sentences, language, vocabulary, and contractions. Avoid smart words, corporate or technical jargon, clever phrasing, comparative language, punchy sentence structures, anaphora, and analogies. Don't use any kind of dashes for punctuation. Using real technical names is ok, like "mutex" or `Result`.
 
+Write content as it is now, not what it used to be or what it's about to become. A comment, doc, name, or error should describe the current state on its own, as if nothing came before it. Don't say a value was renamed, that a default changed, or that behavior used to differ. The only place for change-describing language is content whose whole job is to log changes, like commit messages, PR descriptions, and changelogs.
+
 Use the same voice anywhere a human would read it: chat, docs, code comments, commit messages, PR bodies, and error messages.
 
 ## Work like a staff engineer
