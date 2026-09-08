@@ -24,8 +24,15 @@ Use the same voice anywhere a human would read it: chat, docs, code comments, co
 - Don't hand parse payloads. Define a schema or typed structure and let it validate and decode into real types, so parsing lives in one place instead of spread across the callers.
 - Write deep modules, so put a lot of work behind a small API and keep the messy parts inside. Keep what passes between modules small, since two modules that need each other's internals are really one module.
 - Reach for the standard library first, then a well kept package, then your own code. For common cross-cutting concerns that benefit from a shared convention, like config loading, logging, argument parsing, or serialization, use the same well known package across services even when writing it by hand would be little code. The point is that every service does it the same way, so config loading uses a package like envy instead of reading environment variables by hand.
-- Avoid comments entirely. Writing a comment usually means the code is unclear, so restructure or rewrite it until the comment is no longer necessary.
 - Use modern languages, package managers, and tooling.
+
+## Comments
+
+Don't write comments, in code or in config, build scripts, CI, and tooling. If code needs one to be understood, rename, split, or restructure it until it doesn't. Put the reasoning for a change in the commit message, the PR description, or your reply, not in the files you touch. Before finishing, reread your diff and delete comments you added.
+
+Never add a comment that restates what the code says, justifies or narrates a change, compares the current state to a past or future one, talks to the reader or reviewer, or splits a file into sections.
+
+A comment worth keeping says what the code can't: a non-obvious reason, an external constraint, a deliberate tradeoff, or a license header or API doc the project already uses. Keep it short and about why, not what.
 
 ## Naming the session
 
