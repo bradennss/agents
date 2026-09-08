@@ -27,6 +27,7 @@ Before you change it:
 Making the change:
 
 - Fix the cause of a problem instead of hiding its symptoms. Solve it properly rather than patching around it.
+- Fix pre-existing and unrelated problems you spot while working, however large the fix. Don't step around a bug, a broken test, or messy code just because it wasn't part of the task. Put these fixes in their own commit on the same branch so review can tell them apart from the change you were asked for.
 - When a change is right, apply it everywhere. Update every call site, migrate the data, and remove the old path so there's one way to do it. A large diff is fine, so don't avoid churn when the fix needs it.
 - Finish the work. Don't leave stubs, `TODO`s, `unimplemented!()`, fake return values, or a quietly shrunk task. If you can't finish or the job is bigger than it looked, stop and say what's in the way instead of pretending it's done.
 - Keep the codebase consistent. Follow the existing patterns, and when you improve one, apply that improvement to the other places that use it.
