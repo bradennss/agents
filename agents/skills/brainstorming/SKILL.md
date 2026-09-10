@@ -17,10 +17,12 @@ If the request is already precise and single-meaning, skip this and go straight 
 
 ## Running the loop
 
-1. Restate what you think they want in one or two plain sentences and ask if that's right.
-2. Ask the questions you need to remove the ambiguity. Use the question tool when one exists, otherwise ask in chat. Batch related questions so the user answers in one pass.
-3. When choices matter, lay out the options with their tradeoffs and give a recommended default, so the user can pick from real options.
+1. Restate what you think they want in one or two plain sentences and ask if that's right. This catches a wrong reading before it costs anything.
+2. Ask the questions you need to remove the ambiguity. Use the question tool when one exists, otherwise ask in chat. Batch related questions so the user answers in one pass instead of a slow back and forth.
+3. When choices matter, lay out the options with their tradeoffs and give a recommended default, so the user picks from real options instead of inventing one.
 4. Ask as many rounds as it takes. Stop when nothing important is still open.
+
+Keep the loop cheap. Each round should remove real ambiguity, not gather nice-to-know detail. If an answer won't change what you build, don't ask it.
 
 ## What to pin down
 
@@ -29,9 +31,23 @@ If the request is already precise and single-meaning, skip this and go straight 
 - Constraints: language, platform, existing systems, deadlines.
 - What proves it works, so verification is clear later.
 
+For a categorized set of questions to draw from, by dimension and by project type, read `references/question-banks.md`.
+
+## Techniques
+
+Plain questions cover most cases. When the user is stuck, gives thin answers, or the scope keeps sliding, reach for a named elicitation technique. Read `references/techniques.md` for the full set, including example-driven elicitation, constraint mapping, must/nice sorting, anti-scope, and the pre-mortem.
+
 ## Converging
 
-Write the agreed scope back as a short summary and get a yes. That summary is the brief for everything that follows.
+Write the agreed scope back as a short summary and get a yes. That summary is the brief for everything that follows. A good summary names the goal, the users, the must-haves, the constraints, what's explicitly out of scope, and how you'll know it works.
+
+For worked examples of the whole loop, from a vague prompt to a confirmed scope, read `references/examples.md`.
+
+## Reference files
+
+- `references/question-banks.md`: questions to ask, grouped by dimension (goal, scope, constraints, success) and by project type (CLI tool, web service, library, data pipeline, change to existing code). Read it when you need prompts to draw from.
+- `references/techniques.md`: named elicitation techniques for when plain questions stall. Read it when the user is stuck or the scope won't settle.
+- `references/examples.md`: full brainstorming transcripts that show the loop converging. Read it when you want a model to pattern-match against.
 
 ## Next
 
