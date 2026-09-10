@@ -18,7 +18,3 @@ A new project needs its rules enforced mechanically from the first commit, not j
 ## Writing the AGENTS.md
 
 Don't write it from scratch here. Use the `writing-agents-md` skill for how to write one. Keep it simple and concise: briefly describe the project and add only what exploring the repo can't tell an agent, like the exact verify commands. Don't repeat the global rules.
-
-## Next
-
-Once the baseline is in and green, move into building. After the build works, `verifying-end-to-end` confirms it runs for real. Then commit and open a PR. When you finish, `finishing-up-work` runs the final checks.
