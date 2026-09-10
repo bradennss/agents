@@ -11,7 +11,7 @@ metadata:
 
 Find real, exploitable vulnerabilities in a project the user owns, prove each one, then fix the root cause and add a test so it stays fixed. Favor a small set of confirmed, high-impact findings over a long list of guesses.
 
-## Authorization gate
+## Authorization
 
 Before touching anything, confirm two things:
 
@@ -42,7 +42,7 @@ You cannot find bugs in code you do not understand. Build a picture first:
 - Entry points where outside data enters: HTTP routes, GraphQL resolvers, webhooks, message queues, CLI args, file uploads, env vars, and any input read from other services.
 - Trust boundaries: where data crosses from untrusted to trusted, and where one user's request can reach another user's data.
 - Sensitive sinks: SQL and other queries, shell and process calls, filesystem paths, outbound HTTP, template rendering, deserializers, and anything that runs code.
-- Authn and authz: how the app knows who you are and what checks gate each action.
+- Authn and authz: how the app knows who you are and what checks guard each action.
 - Secrets and config: how credentials, keys, and tokens are stored and loaded.
 - Dependencies: direct packages, lockfiles, and anything pulled at build or runtime.
 

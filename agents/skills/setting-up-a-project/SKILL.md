@@ -9,11 +9,11 @@ A new project needs its rules enforced mechanically from the first commit, not j
 
 ## Steps
 
-1. **Linting** with strict settings, like clippy pedantic, and warnings treated as errors.
-2. **Formatters** wired up for the language.
-3. **A pre-commit hook and CI** that both run the formatter, the linter with warnings as errors, the type checker, and the tests. The hook catches it locally, CI enforces it for everyone.
-4. **AGENTS.md** at the repo root.
-5. **CLAUDE.md symlink** pointing at AGENTS.md. If a CLAUDE.md already exists, delete it first, then create the symlink.
+1. Linting with strict settings, like clippy pedantic, and warnings treated as errors.
+2. Formatters wired up for the language.
+3. A pre-commit hook and CI that both run the formatter, the linter with warnings as errors, the type checker, and the tests. The hook catches it locally, CI enforces it for everyone.
+4. An AGENTS.md at the repo root.
+5. A CLAUDE.md symlink pointing at AGENTS.md. If a CLAUDE.md already exists, delete it first, then create the symlink.
 
 ## Writing the AGENTS.md
 
@@ -21,4 +21,4 @@ Don't write it from scratch here. Use the `writing-agents-md` skill for how to w
 
 ## Next
 
-Once the baseline is in and green, move into building. After the build works, `verifying-end-to-end` confirms it runs for real. Then commit and open a PR. When you finish, `finishing-up-work` runs the final gate.
+Once the baseline is in and green, move into building. After the build works, `verifying-end-to-end` confirms it runs for real. Then commit and open a PR. When you finish, `finishing-up-work` runs the final checks.

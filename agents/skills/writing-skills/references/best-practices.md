@@ -47,7 +47,7 @@ Use the ones that fit your task.
 
 - Gotchas sections. Concrete corrections to mistakes the agent will make without being told, like environment facts that defy reasonable assumptions. Keep them in `SKILL.md` so the agent reads them before hitting the situation.
 - Output templates. Give a template when you need a specific format. Agents pattern-match against concrete structures better than prose. Keep short templates inline; store long ones in `assets/`.
-- Checklists. Help the agent track progress on multi-step work with dependencies or validation gates.
+- Checklists. Help the agent track progress on multi-step work with dependencies or validation steps.
 - Validation loops. Have the agent do the work, run a validator, fix issues, and repeat until it passes. A reference document can act as the validator.
 - Plan-validate-execute. For batch or destructive work, have the agent write an intermediate plan in a structured format, validate it against a source of truth, then execute. Clear validation errors let the agent self-correct.
 - Bundle reusable scripts. If the agent reinvents the same logic each run, write a tested script once and put it in `scripts/`. See `scripts.md`.

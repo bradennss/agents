@@ -16,8 +16,7 @@ Don't rely on unit tests to verify a change works. Spin up a real environment an
 
 ## Examples
 
-- **Backend API change:** call the real endpoints your change affected with `curl` and check the responses.
-- **Frontend change:** use the frontend with the `agent-browser` CLI and walk the views and flows your change affected.
+For a backend API change, call the real endpoints your change affected with `curl` and check the responses. For a frontend change, use the frontend with the `agent-browser` CLI and walk the views and flows your change affected.
 
 ## If it fails
 
@@ -25,4 +24,4 @@ Find the underlying cause and fix that, then run the verification again. Keep go
 
 ## Next
 
-Once it's proven, commit and open the PR, then run `finishing-up-work` for the final gate. That gate runs this verification again as one of its steps.
+Once it's proven, commit and open the PR, then run `finishing-up-work` for the final checks. That skill runs this verification again as one of its steps.
