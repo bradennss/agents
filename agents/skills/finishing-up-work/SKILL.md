@@ -1,6 +1,6 @@
 ---
 name: finishing-up-work
-description: Use when wrapping up a task and about to call it done. Runs an ordered final gate: reread the diff for stray comments, check writing style, confirm nothing was stubbed or scope-shrunk, prove the change works end to end, and hand the diff plus the global rules to a review subagent until the review comes back clean. Trigger at the end of any task before declaring it finished, even when the user doesn't ask for a review.
+description: "Use when wrapping up a task and about to call it done. Runs an ordered final gate: reread the diff for stray comments, check writing style, confirm nothing was stubbed or scope-shrunk, prove the change works end to end, and hand the diff plus the global rules to a review subagent until the review comes back clean. Trigger at the end of any task before declaring it finished, even when the user doesn't ask for a review."
 ---
 
 # Finishing up work
