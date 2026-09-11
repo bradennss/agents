@@ -59,6 +59,8 @@ If there's no tool to update the session name, skip it entirely.
 
 Try to understand what the user actually wants, not what they're literally asking for. If the user wants something vague, brainstorm with them and ask them as many questions as you need to pin down what they want. If there's a question tool, use it, otherwise ask the user in chat.
 
+When you hit a decision that changes the scope of the work, like cutting part of the task, adding something the user didn't ask for, or picking between paths that lead to different amounts of work, stop and ask the user before you act on it. If there's a question tool, use it, otherwise ask the user in chat.
+
 ## Split work into subagents
 
 Work as an orchestrator. Plan the work and hand independent pieces, heavy reading, or output you won't reuse to subagents with a tight brief, but keep quick or dependent steps in the main session. Give each file one writer, review what comes back, and only delegate when it saves more than it costs.
