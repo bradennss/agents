@@ -91,6 +91,8 @@ Leave the machine and the repo the way you found them, plus the change you were 
 
 ## Commits and source control
 
+Work on the current branch and worktree. Only create a feature branch or a worktree when the user explicitly asks for one.
+
 Write commit messages as a single, concise line explaining what changed. Don't include a commit message body, reviewers can look at the diff to see what changed.
 
 In PR descriptions, instead of describing what changed, explain why it changed. Reviewers can look at the diff to see what changed.
