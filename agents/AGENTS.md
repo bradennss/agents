@@ -83,15 +83,38 @@ Examples:
 - For a backend API change, call the real endpoints your change affected using curl
 - For a frontend change, use the frontend with the `agent-browser` CLI and test the views and flows your change affected
 
+## Worktrees and feature branches
+
+Do the work in a git worktree on a feature branch. Build a new project in place, and make a trivial change in place too. A trivial change touches one file and doesn't change behavior, like a typo, a formatting pass, or a version bump. In place means the main checkout on its current branch, with no worktree and no feature branch.
+
+Start at the repo root and look at the main checkout. If it has uncommitted changes, stop and ask the user how to handle them before you create anything. Once it's clean, set up the worktree:
+
+```sh
+git fetch origin
+grep -qxF '.worktrees/' .git/info/exclude || echo '.worktrees/' >> .git/info/exclude
+git worktree add --no-track .worktrees/<branch> -b <branch> origin/<default-branch>
+```
+
+- Use the repo's own remote name in place of `origin` everywhere in this section. Skip the fetch and branch off the local `<default-branch>` when the repo has no remote.
+- Name the branch as a kebab-case slug of the task, like `worktree-rules` or `login-retry-fix`. Don't add prefixes, dates, or owner names.
+- Put the worktree at `.worktrees/<branch>`, so the folder matches the branch.
+- Keep `.worktrees/` out of git through `.git/info/exclude`. Don't touch the repo's `.gitignore` for this. The exclude line stays in the repo once it's there.
+- Copy the ignored local files the project needs to run, like `.env`, then install dependencies. Say what you copied and installed in your reply.
+- `cd` into the worktree and do every step of the work there, including the commits. Give every subagent the worktree path as its working directory.
+
+When the work is done and committed, ask the user how to land it:
+
+- Merge locally: `cd` back to the repo root, switch to the default branch, run `git merge --no-ff <branch>`, then `git worktree remove .worktrees/<branch>` and `git branch -d <branch>`. Remove the empty `.worktrees` folder once the last worktree is gone, and put the main checkout back on the branch it started on.
+- Open a pull request: run `git push -u origin <branch>` from the worktree, then open the PR with `gh pr create`. Leave the worktree and the branch in place.
+- Neither for now: leave both alone and tell the user the branch name and the worktree path.
+
 ## Clean up when you're done
 
-When you finish a task, remove whatever you created to do it that isn't part of the deliverable. Delete temporary files, scratch scripts, and test artifacts. Stop and tear down dev servers, background processes, containers, tunnels, and databases you started. Drop temporary branches, worktrees, and test data you added along the way.
+When you finish a task, remove whatever you created to do it that isn't part of the deliverable. Delete temporary files, scratch scripts, and test artifacts. Stop and tear down dev servers, background processes, containers, tunnels, and databases you started. Drop test data and scratch branches you added along the way. The worktree, the feature branch, and the `.worktrees/` exclude line follow the rules in "Worktrees and feature branches".
 
 Leave the machine and the repo the way you found them, plus the change you were asked for. If something has to stay running or stay on disk for the work to keep working, say what it is and why in your reply.
 
 ## Commits and source control
-
-Work on the current branch and worktree. Only create a feature branch or a worktree when the user explicitly asks for one.
 
 Write commit messages as a single, concise line explaining what changed. Don't include a commit message body, reviewers can look at the diff to see what changed.
 
@@ -146,3 +169,4 @@ Run this gate at the end of every task, in order:
 3. Confirm the work is finished, with no stubs, `TODO`s, or shrunk scope.
 4. Prove the change works in a real environment, not just with unit tests.
 5. Hand the diff and these global rules to a subagent and have it report every rule that's broken. Fix what it finds and review again. The task is done when a review comes back clean.
+6. Commit the work. If you worked in a worktree, ask the user how to land it.
