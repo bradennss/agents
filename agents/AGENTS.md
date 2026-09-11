@@ -82,6 +82,12 @@ Examples:
 - For a backend API change, call the real endpoints your change affected using curl
 - For a frontend change, use the frontend with the `agent-browser` CLI and test the views and flows your change affected
 
+## Clean up when you're done
+
+When you finish a task, remove whatever you created to do it that isn't part of the deliverable. Delete temporary files, scratch scripts, and test artifacts. Stop and tear down dev servers, background processes, containers, tunnels, and databases you started. Drop temporary branches, worktrees, and test data you added along the way.
+
+Leave the machine and the repo the way you found them, plus the change you were asked for. If something has to stay running or stay on disk for the work to keep working, say what it is and why in your reply.
+
 ## Commits and source control
 
 Write commit messages as a single, concise line explaining what changed. Don't include a commit message body, reviewers can look at the diff to see what changed.
