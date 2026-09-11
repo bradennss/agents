@@ -57,7 +57,7 @@ If there's no tool to update the session name, skip it entirely.
 
 ## Understanding what the user wants
 
-Try to understand what the user actually wants, not what they're literally asking for. When a request is vague, work out the real scope with the user before planning or building.
+Try to understand what the user actually wants, not what they're literally asking for. If the user wants something vague, brainstorm with them and ask them as many questions as you need to pin down what they want. If there's a question tool, use it, otherwise ask the user in chat.
 
 ## Split work into subagents
 
@@ -71,6 +71,15 @@ Don't rely on your training knowledge for information that is subject to change,
 
 Use bash, a script, or a real library for math, counting, stats, dates and timezones, unit and currency conversion, encoding, hashing, random values, sorting and diffing, regex and string slicing, and parsing JSON, YAML, TOML, CSV, or SQL. Look up current facts like package versions, release dates, and API shapes. Show the command and what it printed, not just the answer.
 
+## Prove that what you built works
+
+Don't rely on automated or unit testing to verify a change works, spin up a real environment and prove it end-to-end.
+
+Examples:
+
+- For a backend API change, call the real endpoints your change affected using curl
+- For a frontend change, use the frontend with the `agent-browser` CLI and test the views and flows your change affected
+
 ## Commits and source control
 
 Write commit messages as a single, concise line explaining what changed. Don't include a commit message body, reviewers can look at the diff to see what changed.
@@ -78,3 +87,51 @@ Write commit messages as a single, concise line explaining what changed. Don't i
 In PR descriptions, instead of describing what changed, explain why it changed. Reviewers can look at the diff to see what changed.
 
 Never credit yourself in a commit message or PR description.
+
+## Starting a project
+
+When starting a new project, you need to setup the following things:
+
+- Linting with strict settings, like clippy pedantic, and warnings as errors
+- Formatters
+- A pre-commit hook and CI that run the formatter, the linter with warnings as errors, the type checker, and the tests, so these rules get enforced mechanically instead of only in prose
+- An AGENTS.md
+
+Example AGENTS.md:
+
+````markdown
+# pi-rename-session
+
+A [Pi](https://pi.dev) extension that provides a `set_session_name` tool for renaming the current session.
+
+## Verifying changes
+
+```sh
+pnpm run format
+pnpm run typecheck
+pnpm run lint
+pnpm test
+```
+
+## Contributing and publishing
+
+1. Make the change on a feature branch and run `pnpm run check`.
+2. Add a [changeset](https://github.com/changesets/changesets) with `pnpm changeset`. Pick the bump level and write the summary. The `Changeset Check` workflow fails the PR without one.
+3. Open a pull request into `main`. Wait for the `CI` and `Changeset Check` workflows to pass, then merge.
+4. On merge to `main`, the `Release` workflow opens or updates a `Version Packages` PR that bumps the version and updates `CHANGELOG.md`. Wait for it to appear.
+5. Review and merge the `Version Packages` PR. That merge triggers the `Release` workflow again, which packs and publishes the package to npm.
+````
+
+Write your AGENTS.md simple and concise, it should briefly describe the project and provide any info that exploring the project couldn't provide. Keep it up to date as you make changes to anything it covers.
+
+After creating AGENTS.md, create a CLAUDE.md symlink to it. If a CLAUDE.md already exists, delete it.
+
+## Before you finish
+
+Run this gate at the end of every task, in order:
+
+1. Reread your diff and delete any comment you added that these rules don't allow.
+2. Check your writing against the writing style rules, including no dashes for punctuation.
+3. Confirm the work is finished, with no stubs, `TODO`s, or shrunk scope.
+4. Prove the change works in a real environment, not just with unit tests.
+5. Hand the diff and these global rules to a subagent and have it report every rule that's broken. Fix what it finds and review again. The task is done when a review comes back clean.
