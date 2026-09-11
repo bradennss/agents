@@ -83,6 +83,12 @@ Examples:
 - For a backend API change, call the real endpoints your change affected using curl
 - For a frontend change, use the frontend with the `agent-browser` CLI and test the views and flows your change affected
 
+## Isolate what you spin up
+
+Another worktree may be running the same stack at the same time, so build an environment that can't collide with it. Put the branch name into everything you create, like containers, compose projects, volumes, databases, queues, and temp paths. Bind to port 0 or let the tool pick the port, read back the port it chose, and use that value for the rest of the setup and for your checks.
+
+Some things can't be isolated, like a shared remote database, a port that a vendor callback has to reach, or a service that only one client can use at a time. Run against those one at a time instead of working around them. Take a machine wide lock, name it after the resource, and hold it until the run finishes. `lockf -k /tmp/<resource>.lock <command>` on macOS and `flock /tmp/<resource>.lock <command>` on Linux both wait for the lock by default. Leave the lock file on disk, since `-k` needs it to hand the lock out in order.
+
 ## Worktrees and feature branches
 
 Do the work in a git worktree on a feature branch. Build a new project in place, and make a trivial change in place too. A trivial change touches one file and doesn't change behavior, like a typo, a formatting pass, or a version bump. In place means the main checkout on its current branch, with no worktree and no feature branch.
@@ -99,7 +105,7 @@ git worktree add --no-track .worktrees/<branch> -b <branch> origin/<default-bran
 - Name the branch as a kebab-case slug of the task, like `worktree-rules` or `login-retry-fix`. Don't add prefixes, dates, or owner names.
 - Put the worktree at `.worktrees/<branch>`, so the folder matches the branch.
 - Keep `.worktrees/` out of git through `.git/info/exclude`. Don't touch the repo's `.gitignore` for this. The exclude line stays in the repo once it's there.
-- Copy the ignored local files the project needs to run, like `.env`, then install dependencies. Say what you copied and installed in your reply.
+- Copy the ignored local files the project needs to run, like `.env`, then install dependencies. The copy carries the main checkout's ports and resource names, so replace them following "Isolate what you spin up". Say what you copied, what you installed, and what you changed in your reply.
 - `cd` into the worktree and do every step of the work there, including the commits. Give every subagent the worktree path as its working directory.
 
 When the work is done and committed, ask the user how to land it:
@@ -110,7 +116,7 @@ When the work is done and committed, ask the user how to land it:
 
 ## Clean up when you're done
 
-When you finish a task, remove whatever you created to do it that isn't part of the deliverable. Delete temporary files, scratch scripts, and test artifacts. Stop and tear down dev servers, background processes, containers, tunnels, and databases you started. Drop test data and scratch branches you added along the way. The worktree, the feature branch, and the `.worktrees/` exclude line follow the rules in "Worktrees and feature branches".
+When you finish a task, remove whatever you created to do it that isn't part of the deliverable. Delete temporary files, scratch scripts, and test artifacts. Stop and tear down dev servers, background processes, containers, tunnels, and databases you started. Drop test data and scratch branches you added along the way. The worktree, the feature branch, and the `.worktrees/` exclude line follow the rules in "Worktrees and feature branches", and the lock file follows "Isolate what you spin up".
 
 Leave the machine and the repo the way you found them, plus the change you were asked for. If something has to stay running or stay on disk for the work to keep working, say what it is and why in your reply.
 
