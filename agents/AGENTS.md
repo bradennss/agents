@@ -61,6 +61,22 @@ Anything other code depends on gets settled with the user before you build it: H
 
 Put up two or three options, say which one you'd pick and why, and wait for the answer. Show the real shapes: paths, payload fields, signatures, names, types, and what happens when a call fails. Cover the parts that are genuinely open rather than every detail. When a pattern already in the codebase settles a question, say so and propose that pattern.
 
+## Designing frontends
+
+Design work happens with the user, in short rounds, not in one stretch that ends with a finished screen. It covers any work where the open question is how something looks and feels. Building a screen from a design the user already settled is ordinary work, so the rest of these rules cover it.
+
+Agree the direction before building it. Put up two or three rough takes on layout, type, color, and spacing, say which one you'd pick and why, and wait for the answer.
+
+Then work the whole surface in passes, rather than finishing one screen at a time:
+
+1. Static layout for every screen in the flow, with real copy and real data.
+2. Behavior: interaction, navigation, and the loading, empty, and error states.
+3. Polish: spacing, type scale, color, motion, and breakpoints.
+
+Every pass ends at a check-in. Get the screens in front of the user: keep a dev server running, started through the `setting-up-dev-environment` skill, and screenshot the affected screens with the `agent-browser` CLI. Say what you'd change next, and name the parts you're unsure about. Then wait. The next pass starts when the user says it does, and stopping at a check-in is what these rules ask for.
+
+Keep check-ins cheap, with no reviewer subagent and no commits between them. Run the finish gate once, when the user says the design is done.
+
 ## Check instead of recalling
 
 Look things up rather than trusting your memory for anything that changes: library docs, service APIs, package versions, the current recommended way to build something. Do that research before you plan, not after.
