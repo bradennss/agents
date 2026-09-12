@@ -5,9 +5,9 @@ description: Set up a new project with a formatter, a strict linter with warning
 
 # Starting a project
 
-Set up the tooling before you write features, so the formatter, the linter, the type checker, and the tests run in a hook and in CI.
+Get the tooling in place before any feature code, so the formatter, the linter, the type checker, and the tests all run in a hook and in CI.
 
-Build in place, following the `git-worktrees` skill.
+Build in place, following the `setting-up-dev-environment` skill.
 
 ## What to set up
 

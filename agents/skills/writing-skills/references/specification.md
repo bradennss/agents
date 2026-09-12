@@ -4,7 +4,7 @@ The exact format rules for Agent Skills.
 
 ## Directory structure
 
-A skill is a directory containing at minimum a `SKILL.md` file.
+A skill is a directory holding at minimum a `SKILL.md` file.
 
 ```
 skill-name/
