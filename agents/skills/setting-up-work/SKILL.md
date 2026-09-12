@@ -1,6 +1,6 @@
 ---
 name: setting-up-work
-description: Get a repo ready for a task, on the right branch and current with its remote, in a git worktree when the work calls for one. Use when starting any change to an existing repo, trivial or not, when picking an earlier branch or worktree back up, when deciding whether a change is small enough to make in place, when the user asks for a worktree or a feature branch, or when a fresh checkout needs the local files and dependencies that make it runnable.
+description: Get a repo ready for a task, on the right branch and current with its remote, in a git worktree when the work calls for one, running a stack that can't collide with another checkout of the same project. Use when starting any change to an existing repo, trivial or not, when picking an earlier branch or worktree back up, when deciding whether a change is small enough to make in place, when a checkout needs the local files and dependencies that make it runnable, when choosing ports, container names, database names, or temp paths, when a run fails because a port or resource is already taken, or when a shared resource can only serve one client at a time.
 ---
 
 # Setting up work
@@ -42,13 +42,41 @@ git worktree add --no-track .worktrees/<branch> -b <branch> origin/<default-bran
 
 ## Make it runnable
 
-Copy the ignored local files the project needs to run, like `.env`, then install dependencies. Those files carry the main checkout's ports and resource names, so replace those values following the `isolating-environments` skill before you start anything. Tell the user what you copied, what you installed, and what you changed.
+Copy the ignored local files the project needs to run, like `.env`, then install dependencies. Those files carry the main checkout's ports and resource names, so replace those values before you start anything. Tell the user what you copied, what you installed, and what you changed.
+
+## Keep the stack off other checkouts
+
+Another worktree may be running the same stack right now, so build one that can't collide with it.
+
+Put the branch name into every resource you create: containers, compose projects, volumes, databases, queues, and temp paths.
+
+For ports, bind to port 0 or let the tool choose, read back the port it picked, and use that value for the rest of the setup and for every check you run.
+
+## Take a lock on what can't be isolated
+
+Some resources serve one client at a time: a shared remote database, a port a vendor callback has to reach, a physical device. Run against those one at a time instead of working around them.
+
+Take a machine wide lock named after the resource and hold it until the run finishes.
+
+On macOS:
+
+```sh
+lockf -k /tmp/<resource>.lock <command>
+```
+
+On Linux:
+
+```sh
+flock /tmp/<resource>.lock <command>
+```
+
+Both wait for the lock by default. Leave the lock file on disk, since deleting it between runs lets two processes lock different files. On macOS that's what `-k` does, and `lockf` guarantees lock ordering only with it.
 
 ## Work in it
 
 `cd` into the worktree and do every step of the work there, including the commits. Give every subagent the worktree path as its working directory.
 
-Once the work is committed, follow the `finishing-up-work` skill.
+Once the work is committed, follow the `landing-work` skill.
 
 ## Pick work back up
 
