@@ -80,7 +80,7 @@ Write commit messages as a single concise line saying what changed, with no body
 
 ## Starting a new project
 
-Follow the `starting-a-project` skill.
+Read the `starting-a-project` skill when starting or setting up a new project.
 
 ## Name the session
 
@@ -90,8 +90,17 @@ Set the session name at the start of a task, and update it when you move on to a
 
 Run this gate at the end of every task, in order:
 
-1. Reread your diff against these rules, and fix the comments, the writing, and anything stubbed, dropped, or left as a `TODO`.
-2. Prove the change works in a real environment, following the `proving-it-works` skill.
-3. Hand the diff, these rules, and every skill you followed to a subagent and have it report every rule you broke. Fix what it finds, then review again. The task is done when a review comes back clean.
-4. Commit the work and decide where the branch goes, following the `finishing-up-changes` skill.
-5. Take the environment down, following the `cleaning-up-dev-environment` skill. The machine and the repo go back the way you found them, plus the change you were asked for.
+1. Prove the change works in a real environment, following the `proving-it-works` skill.
+2. Write the whole diff of the session to a temporary file, committed work and uncommitted work together:
+
+   ```sh
+   git add -N .
+   git diff $(git merge-base HEAD <default-branch>) > /tmp/<branch>-review.diff
+   ```
+
+   `git add -N .` puts new files in the diff without staging their contents. Work done in place diffs against the commit the task started from.
+
+3. Hand that file to a reviewer subagent with fresh context. Tell it to read every instruction that applies, global and project, and judge every line of the diff against them with maximum scrutiny, then report every issue it finds. It reviews, it doesn't fix.
+4. Fix every issue it reports. Then go back to step 2 and run another reviewer with fresh context on the new diff. The task is done when a review comes back with nothing.
+5. Commit the work and decide where the branch goes, following the `finishing-up-changes` skill.
+6. Take the environment down, following the `cleaning-up-dev-environment` skill. The machine and the repo go back the way you found them, plus the change you were asked for.
