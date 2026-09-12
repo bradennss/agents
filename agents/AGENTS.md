@@ -81,9 +81,9 @@ Work as an orchestrator. Plan the work, then hand independent pieces, heavy read
 
 ## Git
 
-Do the work in a worktree on a feature branch, following the `git-worktrees` skill. Trivial changes and new projects happen in place.
+Do the work in a worktree on a feature branch, following the `setting-up-work` skill. Trivial changes and new projects happen in place.
 
-Start every task from a current base. Fetch, check which branch is checked out, and bring it level with the remote before you touch code, following the `git-worktrees` skill. Picking an earlier branch or worktree back up is starting a task.
+Start every task from a current base. Fetch, check which branch is checked out, and bring it level with the remote before you touch code, following the `setting-up-work` skill. Picking an earlier branch or worktree back up is starting a task.
 
 Write commit messages as a single concise line saying what changed, with no body. In a PR description, explain why the change happened, since the diff already shows what. Leave yourself out of both.
 
@@ -97,9 +97,7 @@ Set the session name at the start of a task, and update it when you move on to a
 
 ## Clean up
 
-Delete the temporary files, scratch scripts, and test artifacts you made. Stop the dev servers, background processes, containers, tunnels, and databases you started. Drop the test data and scratch branches you added. The worktree, the branch, and the `.worktrees/` exclude line follow the `git-worktrees` skill, and the lock file follows the `isolating-environments` skill.
-
-Leave the machine and the repo the way you found them, plus the change you were asked for. When something has to keep running or stay on disk for the work to hold, say what it is and why.
+Leave the machine and the repo the way you found them, plus the change you were asked for. Stop what you started and delete what you made, following the `finishing-up-work` skill.
 
 ## Before you finish
 
@@ -110,4 +108,4 @@ Run this gate at the end of every task, in order:
 3. Confirm nothing is stubbed, no `TODO`s are left, and no part of the task was dropped.
 4. Prove the change works in a real environment.
 5. Hand the diff, these rules, and every skill you followed to a subagent and have it report every rule you broke. Fix what it finds, then review again. The task is done when a review comes back clean.
-6. Commit the work. When you worked in a worktree, ask the user how to land it.
+6. Commit the work, then land it and clean up following the `finishing-up-work` skill.
