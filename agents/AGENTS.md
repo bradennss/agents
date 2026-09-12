@@ -66,15 +66,6 @@ A comment worth keeping says what the code can't: a non-obvious reason, an exter
 
 Everything else stays out, in code and in config, build scripts, CI, and tooling. That covers comments restating what the code says, justifying or narrating a change, comparing the code to a past or future state, talking to the reader, and labeling a section of a file.
 
-## Prove it works
-
-Spin up a real environment and drive the change end to end, since passing unit tests doesn't verify that it works.
-
-- Backend: call the affected endpoints with curl.
-- Frontend: exercise the affected views and flows with the `agent-browser` CLI.
-
-Follow the `setting-up-dev-environment` skill whenever you start something that listens on a port or holds state, so you can't collide with another checkout running the same stack.
-
 ## Delegate to subagents
 
 Work as an orchestrator. Plan the work, then hand independent pieces, heavy reading, and output you won't reuse to subagents with a tight brief, and keep the quick or dependent steps yourself. Give each file one writer, review what comes back, and delegate only when it saves more than it costs.
@@ -100,7 +91,7 @@ Set the session name at the start of a task, and update it when you move on to a
 Run this gate at the end of every task, in order:
 
 1. Reread your diff against these rules, and fix the comments, the writing, and anything stubbed, dropped, or left as a `TODO`.
-2. Prove the change works in a real environment.
+2. Prove the change works in a real environment, following the `proving-it-works` skill.
 3. Hand the diff, these rules, and every skill you followed to a subagent and have it report every rule you broke. Fix what it finds, then review again. The task is done when a review comes back clean.
 4. Commit the work and decide where the branch goes, following the `finishing-up-changes` skill.
 5. Take the environment down, following the `cleaning-up-dev-environment` skill. The machine and the repo go back the way you found them, plus the change you were asked for.
