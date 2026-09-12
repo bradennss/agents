@@ -7,13 +7,13 @@ description: Take down what a task spun up, so the machine and the repo look the
 
 Everything the task started or created comes down, except the change itself.
 
-Use the repo's own remote name in place of `origin` and its own default branch name in place of `<default-branch>`.
+Use the repo's own remote name in place of `origin`, and its own default branch name in place of `<default-branch>`.
 
 ## Stop what's running
 
 Stop the dev servers, background processes, containers, tunnels, and databases the task started. Nothing it launched keeps running.
 
-Leave the lock files from the `setting-up-dev-environment` skill on disk. Deleting one between runs lets two processes lock different files.
+Leave the lock files from the `setting-up-dev-environment` skill on disk. Delete one between runs, and two processes end up locking different files.
 
 ## Delete what was created
 

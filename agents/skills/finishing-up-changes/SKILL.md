@@ -1,19 +1,19 @@
 ---
 name: finishing-up-changes
-description: Turn finished work into commits and decide where the branch goes, by merging it into the default branch, pushing it, opening a pull request, or leaving it for later. Use when a change is done and needs committing, when a feature branch is ready to merge or to review, when the user asks to land, ship, push, or open a PR for the work, or when a branch is being handed back unfinished.
+description: Turn finished work into commits, then decide where the branch goes: merge it into the default branch, push it, open a pull request, or leave it for later. Use when a change is done and needs committing, when a feature branch is ready to merge or to review, when the user asks to land, ship, push, or open a PR for the work, or when a branch is handed back unfinished.
 ---
 
 # Finishing up changes
 
 The code is written and proven. What's left is recording it and deciding where it goes.
 
-Use the repo's own remote name in place of `origin` and its own default branch name in place of `<default-branch>`.
+Use the repo's own remote name in place of `origin`, and its own default branch name in place of `<default-branch>`.
 
 ## Commit
 
 Commit from the worktree, on the feature branch, before anything below.
 
-Split the work so each commit holds one thing. Fixes you made on the way, like an unrelated bug or a broken test, go in their own commits.
+Split the work so each commit holds one thing. Fixes you made on the way, like an unrelated bug or a broken test, go in commits of their own.
 
 Leave nothing uncommitted that belongs to the change:
 
@@ -25,7 +25,7 @@ Untracked files that belong to the change get added. Files that belong to the en
 
 ## Decide where the branch goes
 
-Ask the user which of these they want, and do nothing until they pick:
+Ask the user which of these they want, and do nothing until they pick.
 
 Merge it into the default branch.
 
@@ -36,7 +36,7 @@ git merge --ff-only origin/<default-branch>
 git merge --no-ff <branch>
 ```
 
-The fast-forward first picks up anything that landed on the remote while the work happened. When it refuses, the histories diverged, so stop and ask. When the second merge conflicts, resolve it on the feature branch by rebasing there, following the `setting-up-dev-environment` skill, then merge again.
+The fast-forward comes first so you pick up anything that landed on the remote while the work happened. If it refuses, the histories diverged, so stop and ask. If the second merge conflicts, resolve it on the feature branch by rebasing there, following the `setting-up-dev-environment` skill, then merge again.
 
 Open a pull request.
 

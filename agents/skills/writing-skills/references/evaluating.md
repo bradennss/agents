@@ -1,6 +1,6 @@
 # Evaluating output quality
 
-Structured evals answer whether a skill works reliably across varied prompts, in edge cases, and better than no skill at all.
+Structured evals answer whether a skill works reliably across varied prompts, in edge cases, and against a run with no skill at all.
 
 ## Designing test cases
 
@@ -39,7 +39,7 @@ Good assertions: "The output file is valid JSON" (programmatically verifiable), 
 
 Weak assertions: "The output is good" (too vague), "uses exactly the phrase 'Total Revenue: $X'" (too brittle).
 
-Not everything needs an assertion. Style, visual design, and whether output "feels right" are better caught in human review. Reserve assertions for objective checks.
+Not everything needs an assertion. Style, visual design, and whether output "feels right" are easier to catch in human review. Reserve assertions for objective checks.
 
 ## Grading
 
@@ -70,8 +70,8 @@ Assertion grading only checks what you thought to write. A human reviewer catche
 
 You have three signals: failed assertions (specific gaps), human feedback (broader quality issues), and execution transcripts (why things went wrong). Give all three plus the current `SKILL.md` to an LLM and ask it to propose changes. When you prompt it:
 
-- Generalize from feedback. Fix underlying issues broadly, not narrow patches for specific examples.
-- Keep the skill lean. Fewer, better instructions often beat exhaustive rules. If pass rates plateau while you add rules, try removing some.
+- Generalize from feedback. Fix underlying issues broadly instead of patching narrowly for specific examples.
+- Keep the skill lean. A few good instructions often work better than exhaustive rules. If pass rates plateau while you add rules, try removing some.
 - Explain the why. "Do X because Y tends to cause Z" works better than "ALWAYS do X."
 - Bundle repeated work. If every run rewrites a similar helper, put a tested script in `scripts/`.
 

@@ -5,11 +5,11 @@ description: Verify a change by running it in a real environment and driving it 
 
 # Proving it works
 
-Passing unit tests doesn't verify that a change works. Spin up a real environment and drive the change end to end.
+Unit tests passing doesn't show that the change works. Start a real environment and drive the change end to end.
 
 ## Start the environment
 
-Follow the `setting-up-dev-environment` skill whenever you start something that listens on a port or holds state, so you can't collide with another checkout running the same stack.
+Anything that listens on a port or holds state goes through the `setting-up-dev-environment` skill, so you can't collide with another checkout running the same stack.
 
 ## Drive the change
 
@@ -18,4 +18,4 @@ Follow the `setting-up-dev-environment` skill whenever you start something that 
 
 ## Report it
 
-Show the commands you ran and what they printed, not just the verdict.
+Show the commands you ran and what they printed, not only the verdict.

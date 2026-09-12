@@ -1,6 +1,6 @@
 # Using scripts
 
-Skills can tell agents to run shell commands and can bundle reusable scripts in `scripts/`.
+Skills can tell agents to run shell commands, and they can bundle reusable scripts in `scripts/`.
 
 ## One-off commands
 
@@ -17,7 +17,7 @@ Tips:
 
 - Pin versions, like `npx eslint@9.0.0`, so behavior stays stable over time.
 - State prerequisites in `SKILL.md`, like "Requires Node.js 18+", rather than assuming they exist. For runtime needs, use the `compatibility` frontmatter field.
-- Move complex commands into scripts. When a command grows hard to get right on the first try, a tested script in `scripts/` is more reliable.
+- Move complex commands into scripts. Once a command gets hard to get right on the first try, a tested script in `scripts/` is more reliable.
 
 ## Referencing scripts
 
