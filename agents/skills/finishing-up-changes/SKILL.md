@@ -1,6 +1,6 @@
 ---
 name: finishing-up-changes
-description: Turn finished work into commits, then decide where the branch goes: merge it into the default branch, push it, open a pull request, or leave it for later. Use when a change is done and needs committing, when a feature branch is ready to merge or to review, when the user asks to land, ship, push, or open a PR for the work, or when a branch is handed back unfinished.
+description: "Turn finished work into commits, then decide where the branch goes: merge it into the default branch, push it, open a pull request, or leave it for later. Use when a change is done and needs committing, when a feature branch is ready to merge or to review, when the user asks to land, ship, push, or open a PR for the work, or when a branch is handed back unfinished."
 ---
 
 # Finishing up changes

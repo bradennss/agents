@@ -1,6 +1,6 @@
 ---
 name: setting-up-dev-environment
-description: Get a place to work before touching code: the right branch, current with its remote, in a git worktree when the change needs one, with the local files, dependencies, ports, and names that let the stack run beside other checkouts. Use when starting any change to an existing repo, trivial or not, when picking an earlier branch or worktree back up, when deciding whether a change is small enough to make in place, when a checkout needs the files and dependencies that make it runnable, when choosing ports, container names, database names, or temp paths, when a run fails because a port or another resource is already taken, or when a shared resource can only serve one client at a time.
+description: "Get a place to work before touching code: the right branch, current with its remote, in a git worktree when the change needs one, with the local files, dependencies, ports, and names that let the stack run beside other checkouts. Use when starting any change to an existing repo, trivial or not, when picking an earlier branch or worktree back up, when deciding whether a change is small enough to make in place, when a checkout needs the files and dependencies that make it runnable, when choosing ports, container names, database names, or temp paths, when a run fails because a port or another resource is already taken, or when a shared resource can only serve one client at a time."
 ---
 
 # Setting up a dev environment
