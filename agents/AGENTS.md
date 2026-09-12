@@ -83,6 +83,8 @@ Work as an orchestrator. Plan the work, then hand independent pieces, heavy read
 
 Do the work in a worktree on a feature branch, following the `git-worktrees` skill. Trivial changes and new projects happen in place.
 
+**Start every task from a current base.** Fetch, check which branch is checked out, and bring it level with the remote before you touch code, following the `git-worktrees` skill. Picking an earlier branch or worktree back up is starting a task.
+
 Write commit messages as a single concise line saying what changed, with no body. In a PR description, explain why the change happened, since the diff already shows what. Leave yourself out of both.
 
 ## Starting a new project
