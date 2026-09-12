@@ -73,7 +73,7 @@ Spin up a real environment and drive the change end to end, since passing unit t
 - Backend: call the affected endpoints with curl.
 - Frontend: exercise the affected views and flows with the `agent-browser` CLI.
 
-Follow the `setting-up-work` skill whenever you start something that listens on a port or holds state, so you can't collide with another checkout running the same stack.
+Follow the `setting-up-dev-environment` skill whenever you start something that listens on a port or holds state, so you can't collide with another checkout running the same stack.
 
 ## Delegate to subagents
 
@@ -81,9 +81,9 @@ Work as an orchestrator. Plan the work, then hand independent pieces, heavy read
 
 ## Git
 
-Do the work in a worktree on a feature branch, following the `setting-up-work` skill. Trivial changes and new projects happen in place.
+Set up a dev environment before the first edit, following the `setting-up-dev-environment` skill. That covers the branch, a current base, and a worktree for non-trivial work. Picking an earlier branch or worktree back up is starting a task.
 
-Start every task from a current base. Fetch, check which branch is checked out, and bring it level with the remote before you touch code, following the `setting-up-work` skill. Picking an earlier branch or worktree back up is starting a task.
+When the work is done, follow the `finishing-up-changes` skill.
 
 Write commit messages as a single concise line saying what changed, with no body. In a PR description, explain why the change happened, since the diff already shows what. Leave yourself out of both.
 
@@ -97,7 +97,7 @@ Set the session name at the start of a task, and update it when you move on to a
 
 ## Clean up
 
-Leave the machine and the repo the way you found them, plus the change you were asked for. Stop what you started and delete what you made, following the `cleaning-up-work` skill.
+Leave the machine and the repo the way you found them, plus the change you were asked for. Stop what you started and delete what you made, following the `cleaning-up-dev-environment` skill.
 
 ## Before you finish
 
@@ -108,4 +108,4 @@ Run this gate at the end of every task, in order:
 3. Confirm nothing is stubbed, no `TODO`s are left, and no part of the task was dropped.
 4. Prove the change works in a real environment.
 5. Hand the diff, these rules, and every skill you followed to a subagent and have it report every rule you broke. Fix what it finds, then review again. The task is done when a review comes back clean.
-6. Commit the work, land the branch following the `landing-work` skill, then clean up following the `cleaning-up-work` skill.
+6. Commit the work and decide where the branch goes, following the `finishing-up-changes` skill, then take the environment down following the `cleaning-up-dev-environment` skill.

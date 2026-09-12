@@ -7,7 +7,7 @@ description: Set up a new project with a formatter, a strict linter with warning
 
 Set up the tooling before you write features, so the formatter, the linter, the type checker, and the tests run in a hook and in CI.
 
-Build in place, following the `setting-up-work` skill.
+Build in place, following the `setting-up-dev-environment` skill.
 
 ## What to set up
 
