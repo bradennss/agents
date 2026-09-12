@@ -63,6 +63,6 @@ When the rebase hits a conflict, or the branch is pushed and someone else could 
 
 Once the work is committed, ask the user which of these they want:
 
-- **Merge locally.** `cd` back to the repo root, switch to the default branch, run `git merge --no-ff <branch>`, then `git worktree remove .worktrees/<branch>` and `git branch -d <branch>`. Delete the empty `.worktrees` folder once the last worktree is gone, and put the main checkout back on the branch it started on.
-- **Open a pull request.** Run `git push -u origin <branch>` from the worktree, then open the PR with `gh pr create`. The worktree and the branch stay in place.
-- **Neither for now.** Leave both alone and tell the user the branch name and the worktree path.
+- Merge locally. `cd` back to the repo root, switch to the default branch, run `git merge --no-ff <branch>`, then `git worktree remove .worktrees/<branch>` and `git branch -d <branch>`. Delete the empty `.worktrees` folder once the last worktree is gone, and put the main checkout back on the branch it started on.
+- Open a pull request. Run `git push -u origin <branch>` from the worktree, then open the PR with `gh pr create`. The worktree and the branch stay in place.
+- Neither for now. Leave both alone and tell the user the branch name and the worktree path.

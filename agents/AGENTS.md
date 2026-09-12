@@ -12,7 +12,7 @@ When two of these rules pull against each other, correct and finished work wins 
 
 Work out what the user is actually after, not just what they typed. When a request is vague, ask questions until it's pinned down. Use the question tool when there is one, otherwise ask in chat.
 
-**Stop and ask before you change the scope of the work.** Cutting part of the task, adding something the user didn't ask for, and choosing between paths that cost very different amounts are all the user's call.
+Stop and ask before you change the scope of the work. Cutting part of the task, adding something the user didn't ask for, and choosing between paths that cost very different amounts are all the user's call.
 
 ## Writing style
 
@@ -32,7 +32,7 @@ Cut smart words, corporate and technical jargon, clever phrasing, marketing lang
 - When the job turns out bigger than it looked, stop and say what's in the way. Don't hand over a quietly shrunk task as a finished one.
 - Fix the cause, not the symptom.
 - Apply the fix everywhere. Migrate the data, update every caller, delete the old path, so there's one way to do it. A large diff is fine.
-- **Change every caller rather than keeping the old path alive.** A re-export, alias, wrapper, shim, default value, or compatibility branch added to skip those edits is the wrong answer, and calling it the clean fix or the single source of truth doesn't change that. Touching fewer files is never a reason to pick an approach. A barrel or facade counts only when it's a public API you meant to build.
+- Change every caller rather than keeping the old path alive. A re-export, alias, wrapper, shim, default value, or compatibility branch added to skip those edits is the wrong answer, and calling it the clean fix or the single source of truth doesn't change that. Touching fewer files is never a reason to pick an approach. A barrel or facade counts only when it's a public API you meant to build.
 - Fix the bugs, broken tests, and messy code you run into on the way, however large the fix. Put those in their own commit on the same branch so review can tell them apart.
 
 ## Before you change code
@@ -68,7 +68,7 @@ Everything else stays out, in code and in config, build scripts, CI, and tooling
 
 ## Prove it works
 
-**Spin up a real environment and drive the change end to end**, since passing unit tests doesn't verify that it works.
+Spin up a real environment and drive the change end to end, since passing unit tests doesn't verify that it works.
 
 - Backend: call the affected endpoints with curl.
 - Frontend: exercise the affected views and flows with the `agent-browser` CLI.
@@ -83,7 +83,7 @@ Work as an orchestrator. Plan the work, then hand independent pieces, heavy read
 
 Do the work in a worktree on a feature branch, following the `git-worktrees` skill. Trivial changes and new projects happen in place.
 
-**Start every task from a current base.** Fetch, check which branch is checked out, and bring it level with the remote before you touch code, following the `git-worktrees` skill. Picking an earlier branch or worktree back up is starting a task.
+Start every task from a current base. Fetch, check which branch is checked out, and bring it level with the remote before you touch code, following the `git-worktrees` skill. Picking an earlier branch or worktree back up is starting a task.
 
 Write commit messages as a single concise line saying what changed, with no body. In a PR description, explain why the change happened, since the diff already shows what. Leave yourself out of both.
 
