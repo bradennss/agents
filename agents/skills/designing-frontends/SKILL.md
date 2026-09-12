@@ -26,10 +26,21 @@ Don't finish one screen to the end while the others sit at pass one. A flow that
 
 ## Show the work
 
-Keep a dev server running, started through the `setting-up-dev-environment` skill. Screenshot the affected screens with the `agent-browser` CLI after each pass, at the breakpoints that matter.
+Keep a dev server running, started through the `setting-up-dev-environment` skill.
 
-- Collaborative mode: each pass ends at a check-in. Show the screenshots, say what you'd change next, name what you're unsure about, then stop. The next pass starts when the user says it does.
-- Autonomous mode: run the passes without stopping, and put the screenshots from each pass in the final report.
+Open the app in the user's own browser as soon as the server is up, so they watch the screens change while you work:
+
+```sh
+open http://localhost:<port>        # macOS
+xdg-open http://localhost:<port>    # Linux
+```
+
+Use the port the server actually picked, and say the URL in chat so the user can get back to it. Open it once per session, since hot reload carries the rest. When the project has no hot reload, say which pages the user has to refresh.
+
+Screenshot the affected screens with the `agent-browser` CLI after each pass, at the breakpoints that matter. Those go in the check-in, since the user reads it later and can't scroll back through a live page.
+
+- Collaborative mode: each pass ends at a check-in. Show the screenshots, say what you'd change next, name what you're unsure about, then stop. The next pass starts when the user says it does. Leave the server running between passes so the browser stays live.
+- Autonomous mode: nobody's watching, so skip the browser and rely on screenshots. Run the passes without stopping, and put the screenshots from each pass in the final report.
 
 ## Keep the passes cheap
 
