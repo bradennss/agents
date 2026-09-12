@@ -25,7 +25,7 @@ Untracked files that belong to the change get added. Files that belong to the en
 
 ## Decide where the branch goes
 
-Ask the user which of these they want, and do nothing until they pick.
+Ask the user which of these they want, and do nothing until they pick. This one is the user's call in both modes, since pushing and merging can't be taken back.
 
 Merge it into the default branch.
 

@@ -19,3 +19,8 @@ Anything that listens on a port or holds state goes through the `setting-up-dev-
 ## Report it
 
 Show the commands you ran and what they printed, not only the verdict.
+
+## When it runs
+
+- Autonomous mode: every task, before the review.
+- Collaborative mode: at a check-in for the round you just finished, and among the closing steps when the user picks it.
