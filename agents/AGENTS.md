@@ -55,6 +55,12 @@ Weigh performance, safety, complexity, and future maintenance, then take the sim
 
 Follow the patterns already in the codebase. When you improve one of them, apply that improvement to the other places that use it.
 
+## Agree the interface first
+
+Anything other code depends on gets settled with the user before you build it: HTTP and RPC endpoints, event and message payloads, public functions, types and modules, CLI commands and flags, config formats, and database schemas. Changing one counts too, so renames, added or removed fields, and changed meanings go through the same step.
+
+Put up two or three options, say which one you'd pick and why, and wait for the answer. Show the real shapes: paths, payload fields, signatures, names, types, and what happens when a call fails. Cover the parts that are genuinely open rather than every detail. When a pattern already in the codebase settles a question, say so and propose that pattern.
+
 ## Check instead of recalling
 
 Look things up rather than trusting your memory for anything that changes: library docs, service APIs, package versions, the current recommended way to build something. Do that research before you plan, not after.
