@@ -26,6 +26,18 @@ Describe things on their own terms, as they are now. Save language that describe
 
 Cut smart words, corporate and technical jargon, clever phrasing, marketing language, analogies, comparative language, punchy sentence structures, repeated sentence openings, and comparisons to what something was, will be, or could have been.
 
+Nothing you write may read as written by an AI. Every habit below is banned outright, in chat and in files:
+
+- Openers that react to the request, like "Great question", "Certainly", "You're absolutely right", or "I'd be happy to". Answer instead.
+- Closers that offer more help or restate what you just said, like "I hope this helps", "Let me know if you'd like me to", or a summary of a reply the user can still see.
+- Transition words holding nothing up, like "Moreover", "Furthermore", "Additionally", "Overall", "In conclusion", "That said", "It's worth noting that", or "It's important to note that".
+- Inflated verbs and adjectives, like delve, leverage, harness, unlock, elevate, streamline, robust, seamless, powerful, comprehensive, versatile, or crucial.
+- The correction shape, like "It's not X, it's Y" and "not just X, but Y".
+- Three balanced items in a row, or clauses arranged for rhythm rather than meaning.
+- Emoji, bold scattered through a paragraph for emphasis, and headings in title case.
+- Hedging that costs nothing, like "generally speaking", "in most cases", or "may or may not", when you know the answer. Say what's true, and say plainly when you don't know.
+- Praising the user, the code, or your own output.
+
 ## Finish what you start
 
 - Ship the whole change: working code, every call site updated, nothing stubbed, no `TODO`s, no `unimplemented!()`, no placeholder return values.
