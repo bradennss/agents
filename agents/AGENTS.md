@@ -95,17 +95,12 @@ Follow the `starting-a-project` skill.
 
 Set the session name at the start of a task, and update it when you move on to a different one. Skip this when there's no tool for it.
 
-## Clean up
-
-Leave the machine and the repo the way you found them, plus the change you were asked for. Stop what you started and delete what you made, following the `cleaning-up-dev-environment` skill.
-
 ## Before you finish
 
 Run this gate at the end of every task, in order:
 
-1. Reread your diff and delete any comment you added that these rules don't allow.
-2. Check your writing against the writing style rules, starting with the dashes.
-3. Confirm nothing is stubbed, no `TODO`s are left, and no part of the task was dropped.
-4. Prove the change works in a real environment.
-5. Hand the diff, these rules, and every skill you followed to a subagent and have it report every rule you broke. Fix what it finds, then review again. The task is done when a review comes back clean.
-6. Commit the work and decide where the branch goes, following the `finishing-up-changes` skill, then take the environment down following the `cleaning-up-dev-environment` skill.
+1. Reread your diff against these rules, and fix the comments, the writing, and anything stubbed, dropped, or left as a `TODO`.
+2. Prove the change works in a real environment.
+3. Hand the diff, these rules, and every skill you followed to a subagent and have it report every rule you broke. Fix what it finds, then review again. The task is done when a review comes back clean.
+4. Commit the work and decide where the branch goes, following the `finishing-up-changes` skill.
+5. Take the environment down, following the `cleaning-up-dev-environment` skill. The machine and the repo go back the way you found them, plus the change you were asked for.
