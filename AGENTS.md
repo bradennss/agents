@@ -4,8 +4,8 @@ Shared config for my coding agents.
 
 ## Structure
 
-- `agents/AGENTS.md` holds the global rules, shared by every project.
-- `agents/skills/` holds the skills, one folder each with a `SKILL.md`.
+- `agents/AGENTS.md` holds the global rules, shared by every project, and routes to the skills.
+- `agents/skills/` holds the skills, one folder each with a `SKILL.md`. `working-collaboratively` and `working-autonomously` are the two operation modes, and the rest are workflows the rules route to.
 
 ## Working here
 
@@ -16,4 +16,7 @@ Shared config for my coding agents.
 
 ```sh
 pnpm run format:check
+pnpm run validate
 ```
+
+`validate` checks each skill's frontmatter and naming.

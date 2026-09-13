@@ -4,9 +4,11 @@
   "packageManager": "pnpm@11.25.0",
   "scripts": {
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "validate": "for skill in agents/skills/*/; do skills-ref validate \"$skill\" || exit 1; done"
   },
   "devDependencies": {
-    "prettier": "3.9.6"
+    "prettier": "3.9.6",
+    "skills-ref": "0.1.5"
   }
 }

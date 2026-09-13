@@ -11,7 +11,7 @@ Use the repo's own remote name in place of `origin`, and its own default branch 
 
 ## Commit
 
-Commit from the worktree, on the feature branch, before anything below.
+Commit from the worktree, on the feature branch, before anything below. Work done in place commits from the main checkout, on the branch it was done on.
 
 Split the work so each commit holds one thing. Fixes you made on the way, like an unrelated bug or a broken test, go in commits of their own.
 
@@ -25,7 +25,7 @@ Untracked files that belong to the change get added. Files that belong to the en
 
 ## Decide where the branch goes
 
-Ask the user which of these they want, and do nothing until they pick.
+This one is the user's call in both modes, since pushing and merging can't be taken back. Collaborative mode asks here. Autonomous mode asks in its question pass, before the work starts, and follows the answer. With no answer either way, the default is to leave it for later and say where the branch is. Work with no branch to send, like the trivial short path, skips this.
 
 Merge it into the default branch.
 
@@ -49,8 +49,8 @@ Run both from the worktree. Say why the change happened in the description, sinc
 
 Leave it for later. Nothing to run. Tell the user the branch name and the worktree path so they can find it again.
 
-Work done in place has no branch to land, so it ends at the commit.
+Work done in place has no branch to land, so it ends at the commit, sitting unpushed on the default branch. Say that's where it is.
 
 ## Then tear the environment down
 
-Once the branch is handled, follow the `cleaning-up-dev-environment` skill. Which parts come down depends on the choice made here, so pass that choice along.
+Once the branch is handled, follow the `cleaning-up-dev-environment` skill, unless the user asked to keep the environment up or the work never started anything. Which parts come down depends on the choice made here, so pass that choice along.
