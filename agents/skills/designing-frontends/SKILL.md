@@ -68,6 +68,6 @@ Nobody's watching, so don't open the user's browser. Run the passes without stop
 
 ## Keep the passes cheap
 
-No reviewer subagent and no commits between passes. Proving it works end to end, reviewing the diff, committing, and taking the environment down happen once, after the last pass, the way your mode runs them.
+No reviewers and no commits between passes. Proving it works end to end, reviewing the diff, committing, and taking the environment down happen once, after the last pass, the way your mode runs them.
 
 The browser tab on the user's machine and any tunnel they started are theirs. Leave them running and name them when you say what stayed.
