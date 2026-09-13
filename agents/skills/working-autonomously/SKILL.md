@@ -56,7 +56,7 @@ When one hits, say what it is, what you'd do about it, and every question it rai
 2. Work out what the change touches and which approach to take, following the `planning-a-change` skill.
 3. Ask the question pass above, then build it.
 4. Prove it works in a real environment, following the `proving-it-works` skill.
-5. Review the session diff, following the `reviewing-your-work` skill, and keep going until a review comes back with nothing.
+5. Review the session diff, following the `reviewing-your-work` skill, and fix everything it says blocks.
 6. Commit, following the `finishing-up-changes` skill, and send the branch where the question pass said it goes.
 7. Take the environment down, following the `cleaning-up-dev-environment` skill.
 

@@ -43,7 +43,7 @@ Then stop. Don't roll into the next round, and don't treat silence as approval. 
 
 ## Keep rounds cheap
 
-Between check-ins, skip the reviewer subagent, the commits, and landing the branch. Those come once, at the end. Work that pauses for the day is the exception: commit what's there so the branch can be picked up, and say that's what the commit is.
+Between check-ins, skip the reviewers, the commits, and landing the branch. Those come once, at the end. Work that pauses for the day is the exception: commit what's there so the branch can be picked up, and say that's what the commit is.
 
 Ask questions as they come up, one or two at a time, rather than saving them for a batch. A question that blocks the round ends it, so ask and wait instead of guessing.
 
