@@ -7,7 +7,7 @@ description: "Get a place to work before touching code: the right branch, curren
 
 Do this before the first edit. You end up with a checkout on the branch you meant to be on, built from current code, able to run without colliding with anything else on the machine.
 
-Non-trivial work gets a git worktree on a feature branch. Trivial work happens in place, in the main checkout on the default branch. Trivial means one file and no behavior change, like a typo, a formatting pass, or a version bump. A new project is built in place too.
+Non-trivial work gets a git worktree on a feature branch. Trivial work happens in place, in the main checkout on the default branch, unless a session already has a worktree, in which case it happens there with the rest of the work. Trivial means one file and no behavior change, like a typo, a formatting pass, or a version bump. A new project is built in place too.
 
 Swap in the repo's own remote name wherever this says `origin`, and its own default branch name wherever it says `<default-branch>`.
 
@@ -23,7 +23,7 @@ git log --oneline origin/<default-branch>..<default-branch>
 
 `git status -sb` names the checked out branch and how far it sits from its own upstream. The log lists commits on the local default branch that were never pushed, and it does that whichever branch is checked out.
 
-- Uncommitted changes in the main checkout: stop and ask what to do with them before you create or edit anything.
+- Uncommitted changes in the main checkout that you didn't make: stop and ask what to do with them before you create or edit anything.
 - Commits in that log: say what's sitting there, then start the branch from `<default-branch>` rather than `origin/<default-branch>`, so the work includes them.
 - No remote, or no commits yet: skip the fetch and the log, and work from the local default branch.
 
@@ -31,6 +31,10 @@ Work in place also needs the main checkout itself to be right:
 
 - Another branch or a detached HEAD: stop and ask which branch the work belongs on.
 - The default branch behind the remote: `git merge --ff-only origin/<default-branch>`. If that refuses, the histories diverged, so stop and ask.
+
+Once the base has stopped moving, run the repo's own checks against it, so you know whether the tests and the build were already failing. Run them where the dependencies already are, which is the main checkout, or the worktree once it's installed below. A base that comes back red is a blocker, so report it rather than starting work on top of it.
+
+Note the commit the work starts from with `git rev-parse HEAD` and say it in your reply, since the review diff is taken against it. A repo with no commits yet has none, so say that instead.
 
 ## Make the worktree
 
@@ -45,6 +49,8 @@ git worktree add --no-track .worktrees/<branch> -b <branch> origin/<default-bran
 
 Then `cd` into the worktree. Everything after this happens there, commits included, and every subagent gets that path as its working directory.
 
+Note the commit the branch starts from with `git rev-parse HEAD`, and say it in your reply. The review diff is taken against it.
+
 ## Make the checkout runnable
 
 A fresh worktree holds only what git tracks. Copy over the ignored local files the project needs, such as `.env`, then install dependencies with the project's package manager.
@@ -57,7 +63,7 @@ Another checkout might be running this stack right now.
 
 Put the branch name into every resource the run creates: containers, compose projects, volumes, databases, queues, and temp paths.
 
-For ports, bind to port 0 or let the tool choose, read back the port it picked, and use that value through the rest of the setup and in every check you run.
+For ports, bind to port 0 or let the tool choose, read back the port it picked, and use that value through the rest of the setup and in every check you run. Inside a container, pick from the ports it publishes instead, since one chosen at random isn't reachable from outside.
 
 ## Lock what can't be isolated
 
@@ -81,6 +87,8 @@ Both wait for the lock by default. Leave the lock file on disk, since deleting i
 
 ## Pick an earlier branch back up
 
+Picking an earlier branch back up is starting a task, so it takes a mode, a session name, and the base check above.
+
 Returning to a branch or a worktree from earlier work needs the same current base. Run this in the worktree or checkout that holds the branch, with nothing uncommitted:
 
 ```sh
@@ -89,5 +97,7 @@ git rebase origin/<default-branch>
 ```
 
 Stop and ask when the rebase hits a conflict, or when the branch is pushed and someone else could be building on it.
+
+The rebase moves the branch onto a new base, so the commit noted when the branch was created is stale. Note the new one with `git rev-parse origin/<default-branch>` and say it in your reply, since that's what the review diff runs against.
 
 Then check the environment is still there: dependencies installed, local files present, nothing else holding the ports.

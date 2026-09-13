@@ -5,7 +5,7 @@ description: "Understand a system before changing it: find every place the chang
 
 # Planning a change
 
-The plan comes from the code and from current documentation, not from memory. You end up knowing every place the change lands and why you picked the approach you picked.
+The plan comes from the code and from current documentation, not from memory. You end up knowing every place the change lands and what made the approach you chose the right one.
 
 ## Find where the change lands
 
@@ -40,4 +40,4 @@ When more than one approach is genuinely reasonable, write two or three with the
 
 ## Write the plan down
 
-Before the first edit, state the approach, the files you'll touch, the callers and data you'll migrate, and how you'll prove it works. Keep it to a short list. It's what you check yourself against at the end.
+Before the first edit, state the approach in your reply: the files you'll touch, the callers and data you'll migrate, and how you'll prove it works. Keep it to a short list. It's what you check yourself against at the end.

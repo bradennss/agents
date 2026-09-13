@@ -11,7 +11,7 @@ Use the repo's own remote name in place of `origin`, and its own default branch 
 
 ## Stop what's running
 
-Stop the dev servers, background processes, containers, tunnels, and databases the task started. Nothing it launched keeps running.
+Stop the dev servers, background processes, containers, tunnels, and databases the task started. Nothing it launched keeps running. A browser tab, or a tunnel the user runs themselves, stays with them.
 
 Leave the lock files from the `setting-up-dev-environment` skill on disk. Delete one between runs, and two processes end up locking different files.
 

@@ -16,5 +16,7 @@ Shared config for my coding agents.
 
 ```sh
 pnpm run format:check
-npx skills-ref validate agents/skills/*
+pnpm run validate
 ```
+
+`validate` checks each skill's frontmatter and naming.

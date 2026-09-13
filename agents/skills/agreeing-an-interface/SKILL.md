@@ -27,17 +27,17 @@ Write out what the caller sees:
 - Function signatures, with names and types.
 - What happens when the call fails, including the error shape and what the caller does with it.
 
-A short example payload or signature block beats a paragraph describing one. Cover the parts that are genuinely open, rather than every field in the schema.
+Show an example payload or signature block rather than describing one in prose. Cover the parts that are genuinely open, rather than every field in the schema.
 
 ## Put up two or three options
 
-Each option gets the shape, what it costs the caller, and what it forecloses. Say which one you'd pick and why.
+Each option gets the shape, what it costs the caller, and what it rules out. Say which one you'd pick and why.
 
 When a pattern already in the codebase answers the question, say so and propose that pattern rather than inventing a second way to do the same thing.
 
 ## Get the answer before you build
 
-- Collaborative mode: this is a check-in. Stop and wait.
-- Autonomous mode: this goes in the question pass before the first edit, with the option you'd take as the default. A new interface question mid-task gets decided by the existing pattern and reported at the end, unless it breaks code outside the repo or outside the task's scope, which makes it a scope change.
+- Collaborative mode: stop and wait for the answer before you build. One that turns up mid-task ends the round you're in and goes to the user the same way.
+- Autonomous mode: this goes in the question pass the `working-autonomously` skill runs before the first edit, with the option you'd take as the default. When no answer comes, build the default and name it in the report. A new interface question mid-task gets decided by the existing pattern and reported at the end, unless it breaks something outside the repo or outside the task's scope, like config files or stored payloads people already have, which makes it a scope change.
 
-Once it's agreed, build that. A shape that has to move after the fact goes back to the user.
+Build what was agreed, or the default you named. A shape that has to move after the fact goes back to the user.

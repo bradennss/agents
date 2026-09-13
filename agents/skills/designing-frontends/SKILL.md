@@ -5,13 +5,15 @@ description: "Design a screen or a flow in rounds: rough takes on direction firs
 
 # Designing frontends
 
-Design work happens in short passes over the whole surface, rather than one stretch that ends with a finished screen. Building a screen from a design the user already settled is ordinary work, so the ordinary rules cover that.
+Design work happens in short passes over the whole surface, rather than one stretch that ends with a finished screen. Building a screen from a design the user already settled is ordinary work, and so is adding a field or a loading and error state to a screen whose design is settled, so the ordinary rules cover those.
 
 ## Agree the direction first
 
 Put up two or three rough takes on layout, type, color, and spacing. Say which one you'd pick and why.
 
-- Collaborative mode: wait for the answer before building anything.
+Show a take rather than describing it. Build it and screenshot it when something already runs. When nothing does, write out the layout, the type scale, the colors, and the spacing values, so the user is choosing between things they can see.
+
+- Collaborative mode: wait for the answer before you build the direction out.
 - Autonomous mode: the takes go in the question pass before the first edit, with the one you'd pick as the default.
 
 ## Then work the surface in passes
@@ -22,26 +24,50 @@ Every pass covers every screen in the flow before the next one starts.
 2. Behavior: interaction, navigation, and the loading, empty, and error states.
 3. Polish: spacing, type scale, color, motion, and breakpoints.
 
-Don't finish one screen to the end while the others sit at pass one. A flow that's consistent at pass one is worth more than one screen that's done.
+Don't finish one screen to the end while the others sit at pass one. A round in a design task is a pass, so split the work that way rather than by screen.
 
 ## Show the work
 
-Keep a dev server running, started through the `setting-up-dev-environment` skill.
+Start the project's own dev server and keep it running, with the ports and resource names from the `setting-up-dev-environment` skill so it can't collide with another checkout.
 
-Open the app in the user's own browser as soon as the server is up, so they watch the screens change while you work:
+Screenshot the affected screens with the `agent-browser` CLI after each pass, at the breakpoints that matter. Whoever reads it later can't scroll back through a live page, so the screenshots go in the check-in or the report.
+
+### Collaborative mode
+
+Open the app in the user's own browser as soon as the server is up, so they watch the screens change while you work.
+
+On macOS:
 
 ```sh
-open http://localhost:<port>        # macOS
-xdg-open http://localhost:<port>    # Linux
+open http://localhost:<port>
+```
+
+On Linux:
+
+```sh
+xdg-open http://localhost:<port>
 ```
 
 Use the port the server actually picked, and say the URL in chat so the user can get back to it. Open it once per session, since hot reload carries the rest. When the project has no hot reload, say which pages the user has to refresh.
 
-Screenshot the affected screens with the `agent-browser` CLI after each pass, at the breakpoints that matter. Those go in the check-in, since the user reads it later and can't scroll back through a live page.
+A server running somewhere the user isn't sitting opens nothing on their screen. `SSH_CONNECTION` in the environment says you're on a remote box, and a missing `DISPLAY` on Linux says there's no desktop to open at all, as in a container or a headless server. Hand over a URL the user can reach from their own machine instead, with whatever gets them there: the port the container publishes, a tunnel, or both. Over SSH, give them this to run on their own machine:
 
-- Collaborative mode: each pass ends at a check-in. Show the screenshots, say what you'd change next, name what you're unsure about, then stop. The next pass starts when the user says it does. Leave the server running between passes so the browser stays live.
-- Autonomous mode: nobody's watching, so skip the browser and rely on screenshots. Run the passes without stopping, and put the screenshots from each pass in the final report.
+```sh
+ssh -L <port>:localhost:<port> <host>
+```
+
+Hand it over again whenever the server restarts on a new port.
+
+Each pass ends at a check-in, the four things in the `working-collaboratively` skill, with the screenshots as the proof. The next pass starts when the user says it does, and the server stays up in between so the browser stays live.
+
+A question you can't answer stops the pass where it is. Screenshot what's built, name the screens still at the previous pass, and ask. A half-finished pass is fine to show, as long as you say that's what it is.
+
+### Autonomous mode
+
+Nobody's watching, so don't open the user's browser. Run the passes without stopping, and put the screenshots from each pass in the final report.
 
 ## Keep the passes cheap
 
-No reviewer subagent and no commits between passes. Run the closing steps once, when the design is done.
+No reviewer subagent and no commits between passes. Proving it works end to end, reviewing the diff, committing, and taking the environment down happen once, after the last pass, the way your mode runs them.
+
+The browser tab on the user's machine and any tunnel they started are theirs. Leave them running and name them when you say what stayed.
