@@ -5,7 +5,7 @@ description: "Settle the shape of anything other code depends on before building
 
 # Agreeing an interface
 
-An interface is everything other code has to match. Getting it wrong is expensive to undo, so it gets settled before it gets built.
+An interface is everything other code has to match. Getting it wrong is expensive to undo, so settle it before you build it.
 
 ## What counts
 
@@ -20,24 +20,22 @@ Changing one counts too: renames, added or removed fields, a field that now mean
 
 ## Show the real shapes
 
-Write out what the caller sees:
+Write out what the caller sees, as an example payload or signature block rather than prose:
 
 - Paths, methods, and status codes.
 - Field names, types, and which ones are optional.
 - Function signatures, with names and types.
 - What happens when the call fails, including the error shape and what the caller does with it.
 
-Show an example payload or signature block rather than describing one in prose. Cover the parts that are genuinely open, rather than every field in the schema.
+Cover the parts that are genuinely open, not every field in the schema.
 
 ## Put up two or three options
 
-Each option gets the shape, what it costs the caller, and what it rules out. Say which one you'd pick and why.
-
-When a pattern already in the codebase answers the question, say so and propose that pattern rather than inventing a second way to do the same thing.
+Each option gets the shape, what it costs the caller, and what it rules out. Say which one you'd pick and why. When a pattern already in the codebase answers the question, propose that pattern rather than a second way to do the same thing.
 
 ## Get the answer before you build
 
-- Collaborative mode: stop and wait for the answer before you build. One that turns up mid-task ends the round you're in and goes to the user the same way.
-- Autonomous mode: this goes in the question pass the `working-autonomously` skill runs before the first edit, with the option you'd take as the default. When no answer comes, build the default and name it in the report. A new interface question mid-task gets decided by the existing pattern and reported at the end, unless it breaks something outside the repo or outside the task's scope, like config files or stored payloads people already have, which makes it a scope change.
+- Collaborative mode: stop and wait. One that turns up mid-task ends the round and goes to the user the same way.
+- Autonomous mode: it goes in the question pass before the first edit, with the option you'd take as the default. No answer means build the default and name it in the report. A new interface question mid-task gets decided by the existing pattern and reported at the end, unless it breaks something outside the repo or outside the task's scope, like config files or stored payloads people already have, which makes it a scope change.
 
 Build what was agreed, or the default you named. A shape that has to move after the fact goes back to the user.

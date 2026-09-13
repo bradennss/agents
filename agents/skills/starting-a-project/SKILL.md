@@ -5,16 +5,12 @@ description: Set up a new project with a formatter, a strict linter with warning
 
 # Starting a project
 
-Get the tooling in place before any feature code, so the formatter, the linter, the type checker, and the tests all run in a hook and in CI.
+Get the tooling in place before any feature code. Build in place, following `setting-up-dev-environment`.
 
-Build in place, following the `setting-up-dev-environment` skill.
-
-## What to set up
-
-- A formatter, with its config committed.
-- A linter on its strictest settings, like clippy pedantic, with warnings as errors.
-- A type checker, where the language has one.
-- A test runner, with at least one real test.
-- A pre-commit hook that runs the formatter, the linter, the type checker, and the tests.
-- A CI workflow that runs those same four, so a skipped hook still gets caught.
-- An `AGENTS.md`, written with the `writing-agents-md` skill, and a `CLAUDE.md` symlink pointing at it. Delete any `CLAUDE.md` that's already there.
+- [ ] A formatter, with its config committed.
+- [ ] A linter on its strictest settings, like clippy pedantic, with warnings as errors.
+- [ ] A type checker, where the language has one.
+- [ ] A test runner, with at least one real test.
+- [ ] A pre-commit hook running those four.
+- [ ] A CI workflow running those same four, so a skipped hook still gets caught.
+- [ ] An `AGENTS.md`, written with `writing-agents-md`, and a `CLAUDE.md` symlink pointing at it. Delete any `CLAUDE.md` that's already there.

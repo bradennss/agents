@@ -5,62 +5,52 @@ description: "Take a task all the way to done: ask every important question up f
 
 # Working autonomously
 
-You own every decision the user didn't make, and the task ends when the work is done rather than when the next question comes up.
+You own every decision the user didn't make. The task ends when the work is done, not when the next question comes up.
 
-Trivial work in this mode, meaning one file and no behavior change, takes the short path: run the git checks under "Check the base" in the `setting-up-dev-environment` skill, skip the worktree and that section's run of the repo's own checks, make the edit, run the checks the repo already has, then commit with the `finishing-up-changes` skill. No question pass, no proving run, no review loop, and nothing to tear down.
-
-A task that ends in findings rather than a diff, like an audit or a piece of research, has nothing to build or land. Do the work, then report what you found.
-
-A subagent runs autonomously inside the directory its brief names. It never makes its own worktree, never commits or lands anything, never runs a reviewer of its own, and only hands work to subagents of its own when the brief says to. Setup, commits, landing, and teardown belong to whoever sent the brief, and a blocker goes in what it returns rather than into a wait.
+- Trivial work, meaning one file and no behavior change, takes the short path: the git checks under "Check the base" in `setting-up-dev-environment`, skipping the worktree and that section's run of the repo's checks, then the edit, then the repo's own checks, then a commit with `finishing-up-changes`. No question pass, no proving run, no review loop, nothing to tear down.
+- A task that ends in findings rather than a diff, like an audit or research, has nothing to build or land. Do the work, then report what you found.
+- A subagent works in the directory its brief names. It makes no worktree, commits and lands nothing, runs no reviewer of its own, and delegates only when the brief says to. Setup, commits, landing, and teardown belong to whoever sent the brief, and a blocker goes in what it returns.
 
 ## Ask everything up front, once
 
-Before the first edit, work out every open decision that would change what you build, then ask them together in one pass. Each question carries the default you'd take, so the user can approve the lot in a sentence.
-
-What to settle in that pass:
+Read the code first with `planning-a-change`, then ask every open decision in one pass, each with the default you'd take, so the user can approve the lot in a sentence.
 
 - What done means, and what's out of scope.
-- Any shape other code will depend on. Follow the `agreeing-an-interface` skill and put the options in the pass.
-- The direction for a screen, when the task has one. Follow the `designing-frontends` skill and put the rough takes in the pass.
+- Any shape other code will depend on. Follow `agreeing-an-interface`.
+- The direction for a screen, when the task has one. Follow `designing-frontends` and put the rough takes in the pass.
 - Access you'll need: credentials, services, test accounts, seed data.
-- Where the branch should go when you're done, since merging and pushing can't be taken back.
+- Where the branch goes when you're done.
 - Anything in the request that reads two ways.
 
-When there's nobody to ask, like a subagent working from a brief, take the defaults and name them in what you report.
-
-Read the code before you write that pass, following the `planning-a-change` skill. Questions the repo already answers don't belong in it.
-
-When the user doesn't answer, take the defaults you named and go. A default you can't take back, like merging or pushing, isn't settled by silence.
+Leave out questions the repo already answers. No answer means take the defaults you named, except an irreversible one like merging or pushing, which silence doesn't settle. With nobody to ask, like a subagent working from a brief, take the defaults and name them in the report.
 
 ## Then decide for yourself
 
-After the pass, stop asking. For a question you didn't foresee, pick the option that matches the patterns already in the codebase and the intent the user stated, then keep a list of what you chose and why for the final report.
+After the pass, stop asking. For a question you didn't foresee, pick what matches the patterns in the codebase and the intent the user stated, and keep a list of those choices for the report.
 
 ## Three things stop you
 
-Stop when one of these shows up. Nothing else earns an interruption, apart from the places a skill you're following tells you to stop and ask.
+Nothing else earns an interruption, apart from where a skill you're following tells you to stop.
 
-A scope change. The task turns out bigger or different, part of it has to come out, the cost moves a long way from what the user agreed, or finishing it properly means work they never asked for.
+1. A scope change. The task is bigger or different, part has to come out, the cost moves a long way from what the user agreed, or finishing it properly means work they never asked for.
+2. A blocker you can't clear. Uncommitted changes that aren't yours, a diverged history, a base that doesn't build, tests that already failed before your first edit, missing credentials or access, a service you can't reach, or changing the data or schema of a shared resource. Running against a shared resource is fine.
+3. Anything irreversible outside your own worktree and the local resources you made for it, unless the question pass settled it: pushing, merging, rewriting history, deleting data or branches, dropping a shared database, writing outside the repo, spending money, sending mail or messages, touching production. Migrating your own branch database and deleting the old path in your own worktree is the work, so that goes ahead.
 
-A blocker you can't clear. Uncommitted changes in the checkout that aren't yours, a diverged history, a base that doesn't build, tests that already failed before your first edit, missing credentials or access, a service you can't reach. Changing the data or the schema of a resource other people share is one too, even under the lock the `setting-up-dev-environment` skill takes, though running against it is fine.
+A test that goes red halfway through changes nothing on its own. Run the suspect tests against the commit you started from: red there is a blocker to report, red only with your edits is yours to fix.
 
-Anything irreversible outside your own worktree and the local resources you created for it, unless the question pass already settled it. Pushing, merging, rewriting history, deleting data or branches, dropping a database someone else uses, writing outside the repo, spending money, sending mail or messages, touching production. Migrating your own branch database and deleting the old path in your own worktree is the work, so that goes ahead.
-
-A test that goes red halfway through changes nothing. Run the suspect tests against the commit you started from: red there makes it a blocker to report, red only with your edits makes it yours to fix. Commit what you have so it's safe, and say in the report that the commit is unproven.
-
-When one hits, say what it is, what you'd do about it, and every question it raises, then wait. Don't route around it. When the user is away or the answer never comes, commit what you have on the branch so it's there when they're back, take the environment down with the `cleaning-up-dev-environment` skill so nothing sits holding a port or a lock, and put the blocker at the top of the report.
+When one hits, say what it is, what you'd do about it, and every question it raises, then wait. Don't route around it. When the answer never comes, commit what you have so it's safe and say in the report that the commit is unproven, take the environment down with `cleaning-up-dev-environment`, and put the blocker at the top of the report.
 
 ## Run it to done
 
-1. Set up the environment, following the `setting-up-dev-environment` skill.
-2. Work out what the change touches and which approach to take, following the `planning-a-change` skill.
-3. Ask the question pass above, then build it.
-4. Prove it works in a real environment, following the `proving-it-works` skill.
-5. Review the session diff, following the `reviewing-your-work` skill, and fix everything it says blocks.
-6. Commit, following the `finishing-up-changes` skill, and send the branch where the question pass said it goes.
-7. Take the environment down, following the `cleaning-up-dev-environment` skill.
+1. `setting-up-dev-environment`.
+2. `planning-a-change`.
+3. The question pass above, then build it.
+4. `proving-it-works`.
+5. `reviewing-your-work`, fixing everything it says blocks.
+6. `finishing-up-changes`, sending the branch where the question pass said it goes.
+7. `cleaning-up-dev-environment`.
 
-Hand independent pieces and heavy reading to subagents along the way, following the `delegating-to-subagents` skill.
+Hand independent pieces and heavy reading to subagents along the way, with `delegating-to-subagents`.
 
 ## Report at the end
 

@@ -5,39 +5,30 @@ description: "Understand a system before changing it: find every place the chang
 
 # Planning a change
 
-The plan comes from the code and from current documentation, not from memory. You end up knowing every place the change lands and what made the approach you chose the right one.
+The plan comes from the code and from current documentation, not from memory.
 
 ## Find where the change lands
 
-Read the code around the change first. Account for all of it:
+Read the code around the change and account for all of it:
 
-- Callers of what you're changing, and callers of those when the signature moves.
-- Data already on disk or in a database in the old shape.
-- Other services, jobs, and clients that depend on the behavior.
-- Tests, fixtures, and seed data.
-- Docs, config, and examples that state the old behavior.
+- [ ] Callers of what you're changing, and their callers when the signature moves.
+- [ ] Data already on disk or in a database in the old shape.
+- [ ] Other services, jobs, and clients that depend on the behavior.
+- [ ] Tests, fixtures, and seed data.
+- [ ] Docs, config, and examples stating the old behavior.
 
-Hand the reading to subagents when it's large, following the `delegating-to-subagents` skill. You still read what you're about to change.
-
-When the change touches a shape other code depends on, follow the `agreeing-an-interface` skill.
+Hand large reading to subagents with `delegating-to-subagents`. You still read what you're about to change. When the change touches a shape other code depends on, follow `agreeing-an-interface`.
 
 ## Check the current facts
 
-Look up anything that changes rather than recalling it: library APIs, framework behavior, service contracts, package versions, and the current recommended way to build the thing. Do that before you plan, since it's what makes one approach better than another.
-
-Say which versions you checked against, and link the docs you relied on when the answer was surprising.
+Look up anything that changes rather than recalling it: library APIs, framework behavior, service contracts, package versions, and the current recommended way to build the thing. Do it before you plan, since it's what makes one approach better than another. Say which versions you checked against, and link the docs when the answer was surprising.
 
 ## Pick an approach
 
-Weigh performance, safety, complexity, and future maintenance. Take the simplest approach that fully solves the problem, and say what you traded away.
-
-A pattern already in the codebase settles the question. Say so and follow it, rather than bringing a new one alongside it.
-
-When more than one approach is genuinely reasonable, write two or three with the cost and the risk of each:
-
-- Collaborative mode: put them to the user, say which you'd pick and why, and wait.
-- Autonomous mode: pick one, say why in a line, and carry on.
+- Weigh performance, safety, complexity, and future maintenance. Take the simplest approach that fully solves the problem, and say what you traded away.
+- A pattern already in the codebase settles the question. Say so and follow it.
+- When more than one approach is genuinely reasonable, write two or three with the cost and risk of each. Collaborative mode puts them to the user, says which you'd pick, and waits. Autonomous mode picks one, says why in a line, and carries on.
 
 ## Write the plan down
 
-Before the first edit, state the approach in your reply: the files you'll touch, the callers and data you'll migrate, and how you'll prove it works. Keep it to a short list. It's what you check yourself against at the end.
+Before the first edit, state the approach in your reply as a short list: the files you'll touch, the callers and data you'll migrate, and how you'll prove it works. It's what you check yourself against at the end.

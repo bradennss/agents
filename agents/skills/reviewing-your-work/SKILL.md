@@ -5,85 +5,69 @@ description: Judge a finished change by handing the diff to reviewers with fresh
 
 # Reviewing your work
 
-You already believe your own change is right, which is why someone else judges it. A reviewer with fresh context reads the diff cold and tells you what's wrong.
+Reviewers with fresh context judge the diff, since you already believe your own change is right. At most three rounds, because a loop with no stopping rule finds work forever.
 
-Rounds are what a review costs, so the loop stops after three. A loop with no stopping rule finds work forever: every fix gives the next round more to pick at, and a reviewer with no fixed target widens what it looks at until something turns up.
+## Before each round
 
-## Run the repo's own checks first
-
-Run the formatter, the linter, the type checker, and the tests before you write a diff, every time you write one. A round spent on formatting is a round you paid for nothing, and a tool answers that question for free.
-
-## Write the diff
-
-Committed and uncommitted work go in one file, diffed against the commit the work started from, which the `setting-up-dev-environment` skill noted at setup. That's the commit the branch was created at or last rebased onto, or the tip of the checkout for work done in place:
+- [ ] Run the repo's formatter, linter, type checker, and tests. A round spent on formatting is a round paid for nothing.
+- [ ] Write the diff against the commit noted at setup, which is where the branch started or last rebased onto, or the tip of the checkout for work done in place:
 
 ```sh
 git add -N .
 git diff <starting-commit> > /tmp/<branch>-review.diff
 ```
 
-Using the recorded commit rather than a merge base keeps other people's upstream commits out of the file, and still works when the branch started from a local default branch holding unpushed commits.
-
-A repo with no commits yet has no starting commit, so review the whole tree:
-
-```sh
-git add -N .
-git diff $(git hash-object -t tree /dev/null) > /tmp/<branch>-review.diff
-```
-
-`git add -N .` puts new files in the diff without staging their contents.
+`git add -N .` puts new files in the diff without staging their contents. The noted commit keeps other people's upstream commits out, and still works when the branch started from a local default branch holding unpushed commits. A repo with no commits yet diffs against `$(git hash-object -t tree /dev/null)` instead.
 
 ## What blocks
 
-A finding blocks when the change is wrong without the fix: behavior that breaks, an instruction the diff breaks, part of the task that isn't done, a caller left behind.
-
-Everything else doesn't block: a better name, a clearer sentence, a refactor worth doing, polish. Style and taste never block, whatever a reviewer calls them, and that covers the writing rules in the instructions.
+- Blocks: behavior that breaks, an instruction the diff breaks, part of the task undone, a caller left behind.
+- Doesn't block: a better name, a clearer sentence, a refactor worth doing, polish. Style and taste never block, whatever a reviewer calls them, including the writing rules.
 
 ## Round one: three reviewers at once
 
-Three subagents, fresh context, running in parallel, following the `delegating-to-subagents` skill. Running them together costs the wall clock of one, and a single reviewer finds a slice of what's there and leaves the rest for later rounds.
+Three subagents with fresh context, in parallel, following `delegating-to-subagents`. Each lane gets its own question and the list of what it leaves to the others, otherwise the same finding comes back three times.
 
-Each lane gets its own question and the list of what it leaves to the others, otherwise you get the same finding three times:
+| Lane | Judges | Leaves alone |
+| --- | --- | --- |
+| Correctness | whether the change does what the task set out, across edge cases, error paths, data, and callers | style and wording, what's missing |
+| Instructions | every rule that applies, global and project, including writing and structure | whether the code works, what's missing |
+| Completeness | anything stubbed, half migrated, left dead, or outside what the task agreed | style, whether the logic is right |
 
-- Correctness. Whether the change does what the task set out, across the edge cases, the error paths, the data, and the callers. Leaves style and wording alone, and leaves what's missing or out of scope to the completeness lane.
-- Instructions. Every rule in the instructions that applies, global and project, including the ones about writing and structure. Hands whether the code works to the correctness lane, and what's missing to the completeness lane.
-- Completeness. Anything stubbed, half migrated, left dead, or outside what the task agreed. Ignores style, and doesn't judge whether the logic is right.
-
-Drop a lane when the change holds nothing for it, like the correctness lane on a diff with no code in it.
+Drop a lane with nothing to judge, like correctness on a diff with no code in it.
 
 Every lane gets the same brief around its question:
 
 - Read the diff file, by path.
 - Read every instruction that applies, global and project.
-- Judge the diff against them, with the file and the line for each finding, and the evidence behind it.
-- Mark each finding blocking or not, against the test above. Put that test in the brief in full, since a reviewer with fresh context has no other way to know where the floor is.
-- Fix nothing, and in round one, stay out of the other lanes.
+- Judge the diff against them, with the file, the line, and the evidence for each finding.
+- Mark each finding blocking or not, against the test above, quoted in the brief in full.
+- What the task agreed to do, and what's out of scope. Without it, each round moves the target.
+- Fix nothing, stay in your lane, and run no reviewer of your own.
 
-Give them what the task agreed to do, meaning what done means and what's out of scope. Autonomous mode settles that in its question pass, and collaborative mode in what the user picked along the way. Without it, each round is free to move the target, and work nobody asked for comes back as findings.
-
-Don't tell a reviewer what you think is risky, and don't hand it the story of the work. A steer narrows what it looks at, and a reviewer holding the previous critique audits your fixes and inherits the previous reviewer's blind spots. A reviewer reading this skill doesn't run a reviewer of its own.
+Don't say what you think is risky, and don't hand over the story of the work. A steer narrows what a reviewer looks at, and one holding the previous critique audits your fixes instead of the diff.
 
 ## Fix, then round two
 
-Nothing blocking in any lane means the review is done. Most changes stop here.
+Nothing blocking in any lane ends the review, and most changes stop here. Otherwise:
 
-Otherwise fix everything that blocks. A finding you disagree with gets a reason in your reply, and it's settled: it goes to the next reviewer as a decision already taken, and it can't block a later round without new evidence. Round two gets those decisions and nothing else about the work so far, so no round numbers and no list of what you fixed.
+- Fix everything that blocks.
+- A finding you disagree with gets a reason in your reply and is settled. It can't block a later round without new evidence.
+- A finding in code your diff never touched is a bug your change runs into, fixed in its own commit, or unrelated work, which you report.
 
-A finding in code your diff never touched is a bug your change runs into, which you fix in its own commit, or unrelated work, which you report rather than quietly take on.
-
-Then write the diff again and hand the whole thing to one reviewer with fresh context, under the same brief with no lane and no exclusion list. Its question is whether anything still blocks, and nothing blocking ends the review.
+Then write the diff again and hand the whole thing to one fresh reviewer, same brief, no lane and no exclusion list. Its question is whether anything still blocks. Pass the settled disagreements and nothing else about the work so far, so no round numbers and no list of fixes.
 
 ## Round three is the last one
 
-When round two blocks, fix it, write the diff again, and hand it to one reviewer with fresh context, under the same brief, along with what round two found. This is the one round that sees the previous findings, because its question is narrow: whether each of them is cleared, and whether the fixes broke anything around them. Fixes are where new defects come from, so this round exists to catch them.
+Same again, plus what round two found, since this round's question is narrow: whether each finding is cleared, and whether the fixes broke anything around them. Fixes are where new defects come from.
 
-Then stop, whatever it says. Fix what blocks, and put anything still open at the top of your report. Past three rounds the loop trades one finding for another instead of closing.
+Then stop, whatever it says. Fix what blocks and put anything still open at the top of your report.
 
 ## Sweep the rest
 
-Once the last round is done, take one pass at the non-blocking findings from every round and fix what's cheap. That pass goes to nobody for review, so run the repo's checks over it before you commit. List what you left, and why, in your report.
+Take one pass at the non-blocking findings from every round and fix what's cheap. Nobody reviews that pass, so run the repo's checks over it before you commit. List what you left, and why.
 
 ## When it runs
 
-- Autonomous mode: before committing, on every task except the short path the `working-autonomously` skill gives trivial work, and tasks that end in findings rather than a diff.
+- Autonomous mode: before committing, except the trivial short path and tasks that end in findings.
 - Collaborative mode: when the user picks it among the closing steps.
