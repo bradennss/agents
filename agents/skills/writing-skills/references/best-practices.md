@@ -1,53 +1,43 @@
 # Best practices
 
-How to write skills that are scoped well and calibrated to the task.
-
 ## Start from real expertise
 
-The usual mistake is asking an LLM to generate a skill from its general training knowledge. What comes back is vague: procedures like "handle errors appropriately" in place of the specific patterns, edge cases, and conventions that make a skill worth loading. Feed real domain context into the process instead.
+An LLM asked to generate a skill from general training knowledge returns vague procedures like "handle errors appropriately" instead of the patterns, edge cases, and conventions worth loading. Feed it real context instead.
 
-### Extract from a hands-on task
+From a hands-on task, do the task with an agent and pull the reusable pattern out. Pay attention to:
 
-Do a real task with an agent, giving context, corrections, and preferences along the way. Then pull the reusable pattern out into a skill. Pay attention to:
+- The sequence of steps that worked.
+- Corrections you made, like "use library X instead of Y".
+- Input and output formats.
+- Project facts and constraints the agent didn't know.
 
-- Steps that worked, the sequence that led to success.
-- Corrections you made, places where you steered the agent, like "use library X instead of Y."
-- Input and output formats, what the data looked like going in and coming out.
-- Context you provided, project facts and constraints the agent didn't already know.
-
-### Synthesize from existing artifacts
-
-When you have a body of knowledge, feed it to an LLM and ask it to synthesize a skill. Project-specific material works better than generic references. Good sources: internal docs, runbooks, and style guides; API specs, schemas, and config files; code review comments and issue trackers; version control history, especially patches and fixes; and real failure cases with their resolutions.
+From existing artifacts, feed a body of knowledge to an LLM and ask it to synthesize a skill. Project-specific material beats generic references: internal docs, runbooks, style guides, API specs, schemas, config files, code review comments, issue trackers, version control history, and real failure cases with their resolutions.
 
 ## Refine with real execution
 
-The first draft usually needs work. Run the skill against real tasks, then feed all the results back, the successes as well as the failures. Ask what triggered false positives, what was missed, and what could be cut. Even one round of execute-then-revise helps. See `evaluating.md` for a structured approach.
+Run the first draft against real tasks, then feed all the results back, successes as well as failures. Ask what triggered false positives, what was missed, and what could be cut. One round of execute-then-revise helps. See `evaluating.md`.
 
 ## Spend context wisely
 
-Once a skill activates, its whole body competes for the agent's attention with everything else in the window.
+An active skill's whole body competes for the agent's attention.
 
-- Add what the agent lacks, omit what it knows. For each piece, ask "would the agent get this wrong without this instruction?" If no, cut it. If the agent already handles the whole task without the skill, the skill may not add value.
-- Design coherent units. Scope a skill like a function: one coherent unit of work that composes with others. Too narrow forces many skills to load at once. Too broad is hard to trigger precisely. Querying a database and formatting results may be one unit; adding database administration is too much.
-- Aim for moderate detail. Short stepwise guidance with a working example serves the agent better than exhaustive docs. Covering every edge case can send it down unproductive paths.
-- Structure large skills with progressive disclosure. Keep the core in `SKILL.md`, move detail into `references/`, and say when to load each file. "Read `references/api-errors.md` if the API returns a non-200 status" works better than "see references/ for details."
+- For each piece, ask whether the agent would get it wrong without the instruction. If no, cut it. If the agent handles the whole task without the skill, the skill may not be worth having.
+- Scope a skill like a function: one coherent unit that composes with others. Too narrow forces many skills to load at once, too broad is hard to trigger precisely. Querying a database and formatting results may be one unit, adding database administration is too much.
+- Aim for moderate detail. Short stepwise guidance with a working example beats exhaustive docs, which can send the agent down unproductive paths.
+- Use progressive disclosure for large skills: core in `SKILL.md`, detail in `references/`, with a condition for loading each file. "Read `references/api-errors.md` if the API returns a non-200 status" works better than "see references/ for details".
 
 ## Calibrate control
 
-Match the specificity of instructions to how fragile the task is.
+- Give freedom where many approaches are valid, and explain why, since an agent that understands the purpose makes better context-dependent choices.
+- Be prescriptive where operations are fragile, consistency matters, or a sequence is required.
+- Give a default rather than a menu, mentioning alternatives briefly.
+- Favor procedures over declarations. Specific details like output templates or "never output PII" still belong.
 
-- Give the agent freedom when many approaches are valid. Explaining why works better than a rigid rule, since an agent that understands the purpose makes better context-dependent choices.
-- Be prescriptive when operations are fragile, consistency matters, or a specific sequence is required.
-- Provide a default rather than a menu. Pick one and mention alternatives briefly instead of listing equal options.
-- Favor procedures over declarations. Teach how to approach a class of problems rather than what to produce for one instance. Specific details like output templates or "never output PII" still belong; the approach should generalize.
+## Instruction patterns
 
-## Patterns for effective instructions
-
-Use the ones that fit your task.
-
-- Gotchas sections. Concrete corrections to mistakes the agent will make without being told, like environment facts that defy reasonable assumptions. Keep them in `SKILL.md` so the agent reads them before hitting the situation.
-- Output templates. Give a template when you need a specific format. Agents pattern-match against concrete structures more reliably than prose. Keep short templates inline; store long ones in `assets/`.
-- Checklists. Help the agent track progress on multi-step work with dependencies or validation steps.
-- Validation loops. Have the agent do the work, run a validator, fix issues, and repeat until it passes. A reference document can act as the validator.
-- Plan-validate-execute. For batch or destructive work, have the agent write an intermediate plan in a structured format, validate it against a source of truth, then execute. Clear validation errors let the agent self-correct.
-- Bundle reusable scripts. If the agent reinvents the same logic each run, write a tested script once and put it in `scripts/`. See `scripts.md`.
+- Gotchas: concrete corrections to mistakes the agent makes unprompted, like environment facts that defy assumptions. Keep them in `SKILL.md`.
+- Output templates: agents pattern-match structures more reliably than prose. Short ones inline, long ones in `assets/`.
+- Checklists: for multi-step work with dependencies or validation steps.
+- Validation loops: do the work, run a validator, fix, repeat until it passes. A reference document can be the validator.
+- Plan-validate-execute: for batch or destructive work, write the plan in a structured format, validate it against a source of truth, then execute. Clear validation errors let the agent self-correct.
+- Bundled scripts: when the agent reinvents the same logic each run, write a tested script once in `scripts/`. See `scripts.md`.

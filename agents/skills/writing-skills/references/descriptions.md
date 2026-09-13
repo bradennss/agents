@@ -1,55 +1,36 @@
 # Optimizing descriptions
 
-A skill only helps if it activates. The `description` field is the main signal an agent uses when deciding whether to load a skill. Too narrow and it won't trigger when it should. Too broad and it triggers when it shouldn't.
+A skill only helps if it activates, and `description` is the main signal. Too narrow and it won't trigger when it should, too broad and it triggers when it shouldn't.
 
-## How triggering works
+At startup the agent loads only each skill's `name` and `description`, then reads the full `SKILL.md` when a task matches. Agents reach for skills only when a task needs more than they can handle alone, so "read this PDF" may not trigger a PDF skill however well it matches. Descriptions matter most for specialized tasks, unfamiliar APIs, domain workflows, and uncommon formats.
 
-At startup the agent loads only each skill's `name` and `description`. When a task matches a description, it reads the full `SKILL.md` and follows it. So the description carries the whole burden of triggering. One nuance: agents usually reach for skills only when a task needs knowledge beyond what they can handle alone. A simple "read this PDF" may not trigger a PDF skill even with a perfect match, because basic tools already cover it. A good description matters for specialized tasks, an unfamiliar API, a domain workflow, or an uncommon format.
+## Writing one
 
-## Writing effective descriptions
+- Imperative phrasing: "Use this skill when...", not "This skill does...".
+- Focus on user intent rather than implementation, since the agent matches against what the user asked for.
+- Err on the side of pushy. List the contexts where it applies, including ones where the user doesn't name the domain, like "even if they don't explicitly mention 'CSV' or 'analysis'".
+- A few sentences to a short paragraph. Hard limit 1024 characters.
 
-- Use imperative phrasing. "Use this skill when..." rather than "This skill does...". The agent is deciding whether to act.
-- Focus on user intent rather than implementation. Describe what the user wants to achieve, since the agent matches against what the user asked for.
-- Err on the side of pushy. List contexts where the skill applies, including ones where the user doesn't name the domain, like "even if they don't explicitly mention 'CSV' or 'analysis.'"
-- Keep it concise. A few sentences to a short paragraph. The hard limit is 1024 characters.
+## Trigger eval queries
 
-## Designing trigger eval queries
+Build about 20 realistic prompts labeled with whether they should trigger the skill, 8 to 10 each way.
 
-Build a set of realistic prompts labeled with whether they should trigger the skill. Aim for about 20: 8 to 10 that should trigger and 8 to 10 that shouldn't.
+- Should-trigger: vary phrasing (formal, casual, typos), explicitness, detail, and complexity. The useful ones are where the skill helps but the connection isn't obvious.
+- Should-not-trigger: near-misses pay off most. For a CSV analysis skill, "update the formulas in my Excel budget spreadsheet" needs Excel editing, and "write a python script that reads a csv and uploads each row to postgres" is ETL. "What's the weather" tests nothing.
+- Make prompts realistic: file paths, personal context, specific details, casual language.
 
-Should-trigger queries test whether the description captures the skill's scope. Vary them by phrasing (formal, casual, typos), explicitness (some name the domain, some just describe the need), detail (terse and context-heavy), and complexity (single-step and multi-step). The most useful ones are where the skill helps but the connection isn't obvious from the query.
+## Testing
 
-Should-not-trigger queries pay off most as near-misses: prompts that share keywords but need something different. For a CSV analysis skill, "update the formulas in my Excel budget spreadsheet" needs Excel editing, and "write a python script that reads a csv and uploads each row to postgres" is database ETL rather than analysis. Obvious misses like "what's the weather" test nothing.
+Run each query with the skill installed and check whether the `SKILL.md` loaded, which most clients show in logs or tool-call histories. A pass is a should-trigger query that loaded it, or a should-not-trigger query that didn't. Behavior is nondeterministic, so run each query about 3 times and compare the trigger rate against a threshold like 0.5.
 
-Make prompts realistic with file paths, personal context, specific details, and casual language.
-
-## Testing whether it triggers
-
-Run each query through the agent with the skill installed and check whether it loaded the `SKILL.md`. Most clients expose logs or tool-call histories that show which skills were consulted.
-
-A query passes if `should_trigger` is true and the skill was invoked, or `should_trigger` is false and it wasn't.
-
-Model behavior is nondeterministic, so run each query about 3 times and compute a trigger rate. A should-trigger query passes if the rate is above a threshold like 0.5; a should-not-trigger query passes if it's below.
-
-## Avoiding overfitting
-
-Split the query set so you don't tune to specific phrasings:
-
-- Train set (about 60%): used to find failures and guide changes.
-- Validation set (about 40%): set aside to check whether changes generalize.
-
-Keep a proportional mix of positives and negatives in each, shuffle once, and keep the split fixed.
+Split the queries so you don't tune to phrasings: about 60% train, 40% validation, a proportional mix of positives and negatives in each, shuffled once and then fixed.
 
 ## The optimization loop
 
-1. Evaluate the current description on both sets. Train guides changes; validation shows whether they generalize.
-2. Identify failures in the train set only.
-3. Revise the description. If should-trigger queries fail, broaden the scope or add context about when the skill is useful. If should-not-trigger queries fire, add specificity about what the skill does not do. Don't paste in keywords from failed queries, since that overfits; address the general category instead. If stuck, try a structurally different framing. Stay under 1024 characters.
-4. Repeat until train queries pass or improvement stalls.
-5. Pick the iteration with the best validation pass rate, which may not be the last one.
+1. Evaluate on both sets.
+2. Find failures in the train set only.
+3. Revise. Should-trigger failures need broader scope or more context about when the skill is useful. Should-not-trigger firings need specificity about what the skill doesn't do. Address the general category rather than pasting in keywords, which overfits. Try a structurally different framing when stuck. Stay under 1024 characters.
+4. Repeat until train queries pass or improvement stalls, usually within five iterations. No improvement means the queries may be too easy, too hard, or mislabeled.
+5. Pick the iteration with the best validation pass rate, which may not be the last.
 
-Five iterations is usually enough. If it isn't improving, the queries may be the problem, too easy, too hard, or mislabeled.
-
-## Applying the result
-
-Update the `description` field, confirm it's under 1024 characters, and sanity-check with a few manual prompts. For a rigorous check, write 5 to 10 fresh queries that were never part of optimization and run them.
+Then update the field, confirm the length, and sanity-check with 5 to 10 fresh queries that were never part of the optimization.

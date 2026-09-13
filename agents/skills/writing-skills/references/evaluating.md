@@ -2,77 +2,62 @@
 
 Structured evals answer whether a skill works reliably across varied prompts, in edge cases, and against a run with no skill at all.
 
-## Designing test cases
+## Test cases
 
-A test case has three parts:
+A test case is a realistic prompt, a human-readable description of what success looks like, and optional input files. Store them in `evals/evals.json` inside the skill directory.
 
-- Prompt: a realistic user message, the kind of thing someone would actually type.
-- Expected output: a human-readable description of what success looks like.
-- Input files (optional): files the skill works with.
+- Start with 2 to 3 cases. Don't over-invest before the first results.
+- Vary phrasing, detail, and formality.
+- Cover at least one boundary condition, like malformed input or an ambiguous request.
+- Use realistic context: file paths, column names, personal details. "Process this data" tests nothing.
+- Don't write pass/fail checks yet.
 
-Store them in `evals/evals.json` inside the skill directory.
+## Running
 
-Tips:
+Run each case twice, once with the skill and once without it or with the previous version, for a baseline to compare against.
 
-- Start with 2 to 3 test cases. Don't over-invest before you see the first results.
-- Vary the prompts across phrasing, detail, and formality.
-- Cover edge cases, at least one boundary condition like malformed input or an ambiguous request.
-- Use realistic context: file paths, column names, personal context. "Process this data" is too vague to test anything.
+- Keep results in a workspace directory next to the skill: `iteration-N/` per pass, `with_skill/` and `without_skill/` per case.
+- You write `evals/evals.json` by hand. `grading.json`, `timing.json`, and `benchmark.json` come out of the process.
+- Start each run with a clean context so the agent follows only `SKILL.md`. Subagents give that isolation, otherwise use a separate session per run.
+- Give each run the skill path (or none for the baseline), the prompt, any input files, and the output directory.
+- Record timing and token counts so you can weigh quality against cost.
 
-Don't define pass/fail checks yet. Add those after you see what the first run produces.
+## Assertions
 
-## Running evals
+Write them after you see the first outputs, since you often don't know what good looks like until the skill has run.
 
-Run each test case twice: once with the skill and once without it (or with a previous version). That gives you a baseline to compare against.
-
-Organize results in a workspace directory next to the skill. Each pass gets its own `iteration-N/` directory, and each test case gets `with_skill/` and `without_skill/` subdirectories. You author `evals/evals.json` by hand; other files like `grading.json`, `timing.json`, and `benchmark.json` are produced during the process.
-
-Each run should start with a clean context so the agent follows only what `SKILL.md` says. Subagents give this isolation naturally; without them, use a separate session per run. Provide the skill path (or none for the baseline), the prompt, any input files, and the output directory. When improving an existing skill, snapshot the previous version and point the baseline at it.
-
-Record timing and token counts per run so you can weigh quality against cost.
-
-## Writing assertions
-
-Assertions are verifiable statements about the output. Add them after you see the first outputs, since you often don't know what good looks like until the skill has run.
-
-Good assertions: "The output file is valid JSON" (programmatically verifiable), "The bar chart has labeled axes" (specific and observable), "The report includes at least 3 recommendations" (countable).
-
-Weak assertions: "The output is good" (too vague), "uses exactly the phrase 'Total Revenue: $X'" (too brittle).
-
-Not everything needs an assertion. Style, visual design, and whether output "feels right" are easier to catch in human review. Reserve assertions for objective checks.
+- Good: "The output file is valid JSON", "The bar chart has labeled axes", "The report includes at least 3 recommendations".
+- Weak: "The output is good" (vague), "uses exactly the phrase 'Total Revenue: $X'" (brittle).
+- Reserve assertions for objective checks. Style, visual design, and whether output feels right belong in human review.
 
 ## Grading
 
-Grade each assertion against the actual output as PASS or FAIL with concrete evidence that quotes or references the output. Give assertions and outputs to an LLM to judge, and use a verification script for mechanical checks like valid JSON or row counts, since scripts are more reliable and reusable.
+Grade each assertion PASS or FAIL with concrete evidence quoting the output. An LLM judges the subjective ones, a verification script handles mechanical checks like valid JSON or row counts.
 
-Principles:
+- A PASS needs evidence. A section titled "Summary" with one vague sentence is a FAIL.
+- Fix assertions that always pass, always fail, or can't be verified.
 
-- Require concrete evidence for a PASS. A section titled "Summary" with one vague sentence is a FAIL.
-- Review the assertions themselves while grading. Fix ones that always pass, always fail, or can't be verified.
+## Aggregating
 
-## Aggregating and analyzing
+Save summary statistics per configuration to `benchmark.json`. The delta shows what the skill costs in time and tokens and what it buys in pass rate.
 
-Compute summary statistics per configuration and save them to `benchmark.json`. The delta tells you what the skill costs (time, tokens) and what it buys (higher pass rate).
-
-Patterns to watch:
-
-- Remove assertions that always pass in both configurations, since they inflate the score without showing skill value.
-- Investigate assertions that always fail in both. The assertion may be broken or the test too hard.
-- Study assertions that pass with the skill but fail without. That's where the skill adds value; understand why.
-- Tighten instructions when results are inconsistent across runs, shown by high stddev. The eval may be flaky or the instructions ambiguous.
-- Check time and token outliers by reading the execution transcript.
+- Remove assertions that always pass in both configurations, since they inflate the score.
+- Investigate assertions that always fail in both: the assertion may be broken or the test too hard.
+- Study assertions that pass with the skill and fail without, since that's where the value is.
+- Tighten instructions when results are inconsistent across runs, shown by high stddev.
+- Read the transcript behind time and token outliers.
 
 ## Human review
 
-Assertion grading only checks what you thought to write. A human reviewer catches issues you didn't anticipate, like output that's technically correct but misses the point. Review the actual outputs against the grades and record specific, actionable feedback per test case. "The chart is missing axis labels" helps; "looks bad" doesn't. Empty feedback means the output looked fine.
+Assertion grading only checks what you thought to write. Review the actual outputs against the grades and record specific feedback per case. "The chart is missing axis labels" helps, "looks bad" doesn't. Empty feedback means the output looked fine.
 
 ## Iterating
 
-You have three signals: failed assertions (specific gaps), human feedback (broader quality issues), and execution transcripts (why things went wrong). Give all three plus the current `SKILL.md` to an LLM and ask it to propose changes. When you prompt it:
+Give an LLM the failed assertions, the human feedback, the execution transcripts, and the current `SKILL.md`, and ask for changes.
 
-- Generalize from feedback. Fix underlying issues broadly instead of patching narrowly for specific examples.
-- Keep the skill lean. A few good instructions often work better than exhaustive rules. If pass rates plateau while you add rules, try removing some.
-- Explain the why. "Do X because Y tends to cause Z" works better than "ALWAYS do X."
-- Bundle repeated work. If every run rewrites a similar helper, put a tested script in `scripts/`.
+- Generalize from feedback rather than patching for specific examples.
+- Keep the skill lean. When pass rates plateau while you add rules, try removing some.
+- Explain the why: "Do X because Y tends to cause Z" beats "ALWAYS do X".
+- Bundle repeated work into a tested script in `scripts/`.
 
-The loop: propose improvements, review and apply, rerun all cases in a new `iteration-<N+1>/`, grade and aggregate, review with a human, repeat. Stop when you're satisfied, feedback is consistently empty, or improvement stalls.
+Then rerun every case in a new `iteration-<N+1>/`, grade, aggregate, and review. Stop when you're satisfied, feedback is consistently empty, or improvement stalls.

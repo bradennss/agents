@@ -5,29 +5,21 @@ description: "Turn finished work into commits, then decide where the branch goes
 
 # Finishing up changes
 
-The code is written and proven. What's left is recording it and deciding where it goes.
-
-Use the repo's own remote name in place of `origin`, and its own default branch name in place of `<default-branch>`.
+The code is written and proven. What's left is recording it and deciding where it goes. Use the repo's own remote name in place of `origin`, and its own default branch in place of `<default-branch>`.
 
 ## Commit
 
-Commit from the worktree, on the feature branch, before anything below. Work done in place commits from the main checkout, on the branch it was done on.
+Commit from the worktree on the feature branch, or from the main checkout for work done in place, before anything below.
 
-Split the work so each commit holds one thing. Fixes you made on the way, like an unrelated bug or a broken test, go in commits of their own.
-
-Leave nothing uncommitted that belongs to the change:
-
-```sh
-git status -sb
-```
-
-Untracked files that belong to the change get added. Files that belong to the environment, like `.env` or local caches, don't.
+- Split the work so each commit holds one thing. Fixes made on the way, like an unrelated bug or a broken test, get their own commits.
+- Leave nothing uncommitted that belongs to the change: `git status -sb`.
+- Add untracked files that belong to the change. Files that belong to the environment, like `.env` or local caches, stay out.
 
 ## Decide where the branch goes
 
-This one is the user's call in both modes, since pushing and merging can't be taken back. Collaborative mode asks here. Autonomous mode asks in its question pass, before the work starts, and follows the answer. With no answer either way, the default is to leave it for later and say where the branch is. Work with no branch to send, like the trivial short path, skips this.
+The user's call in both modes, since pushing and merging can't be taken back. Collaborative mode asks here, autonomous mode asks in its question pass and follows the answer. No answer either way means leave it for later and say where the branch is. Work with no branch to send, like the trivial short path, skips this.
 
-Merge it into the default branch.
+Merge it into the default branch:
 
 ```sh
 cd <repo-root>
@@ -36,21 +28,21 @@ git merge --ff-only origin/<default-branch>
 git merge --no-ff <branch>
 ```
 
-The fast-forward comes first so you pick up anything that landed on the remote while the work happened. If it refuses, the histories diverged, so stop and ask. If the second merge conflicts, resolve it on the feature branch by rebasing there, following the `setting-up-dev-environment` skill, then merge again.
+The fast-forward comes first so you pick up whatever landed on the remote meanwhile. A refusal means the histories diverged, so stop and ask. A conflict in the second merge gets resolved on the feature branch by rebasing there, following `setting-up-dev-environment`, then merge again.
 
-Open a pull request.
+Open a pull request, both commands from the worktree:
 
 ```sh
 git push -u origin <branch>
 gh pr create
 ```
 
-Run both from the worktree. Say why the change happened in the description, since the diff shows what changed.
+Say why the change happened in the description, since the diff shows what.
 
-Leave it for later. Nothing to run. Tell the user the branch name and the worktree path so they can find it again.
+Leave it for later: nothing to run. Tell the user the branch name and the worktree path.
 
 Work done in place has no branch to land, so it ends at the commit, sitting unpushed on the default branch. Say that's where it is.
 
 ## Then tear the environment down
 
-Once the branch is handled, follow the `cleaning-up-dev-environment` skill, unless the user asked to keep the environment up or the work never started anything. Which parts come down depends on the choice made here, so pass that choice along.
+Follow `cleaning-up-dev-environment` once the branch is handled, unless the user asked to keep the environment up or the work never started anything. Pass along the choice made here, since it decides which parts come down.
